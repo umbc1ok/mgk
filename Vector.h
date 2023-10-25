@@ -1,16 +1,12 @@
 class Vector
 {
-private:
+
+public:
 	float x;
 	float y;
 	float z;
 
-public:
-
-	Vector(float x, float y, float z)
-		: x(x), y(y), z(z)
-	{
-	}
+	Vector(float x, float y, float z);
 	Vector();
 
 	float length();
@@ -33,6 +29,8 @@ public:
 	//iloczyn wektorowy
 	
 	Vector cross(Vector v);
+
+	bool operator==(Vector other);
 
 	~Vector();
 };

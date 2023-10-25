@@ -3,10 +3,7 @@
 #include <iostream>
 #include <cmath>
 
-Vector::Vector(float x, float y, float z)
-	: x(x), y(y), z(z)
-{
-}
+Vector::Vector(float x, float y, float z) : x(x), y(y), z(z) {};
 
 
 Vector::Vector()
@@ -22,7 +19,7 @@ void Vector::add(Vector v)
 {
 	this->x += v.x;
 	this->y += v.y;
-	this->z += v.z
+	this->z += v.z;
 }
 
 void Vector::subb(Vector v)
@@ -85,6 +82,13 @@ Vector Vector::cross(Vector v)
 	return cross;
 
 }
+
+bool Vector::operator==(Vector other)
+{
+	return this->x == other.x && this->y == other.y && this->z == other.z;
+}
+
+
 
 Vector::~Vector()
 {
