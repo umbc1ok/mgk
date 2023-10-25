@@ -16,24 +16,30 @@ float Vector::lenght()
 
 void Vector::add(Vector v)
 {
-	this.x += v.x;
-	this.y += v.y;
-	this z += v.z
+	this->x += v.x;
+	this->y += v.y;
+	this->z += v.z
 }
 
 void Vector::subb(Vector v)
 {
-	this.x -= v.x;
-	this.y -= v.y;
-	this.z -= v.z;
+	this->x -= v.x;
+	this->y -= v.y;
+	this->z -= v.z;
 }
 
 void Vector::mul(float a)
 {
+	this->x *= a;
+	this->y *= a;
+	this->z *= a;
 }
 
 void Vector::div(float a)
 {
+	this->x /= a;
+	this->y /= a;
+	this->z /= a;
 }
 
 flaot Vector::dot(Vector v)
@@ -46,9 +52,19 @@ flaot Vector::findAngle(Vector v)
 	return flaot();
 }
 
-Vector Vector::normalize(Vector v)
+Vector Vector::normalize()
 {
-	return Vector();
+	float len = v.length();
+	Vector normalised;
+	if (len != 0) {
+		normalised = this->div(len);
+	}
+	else
+	{
+		std::count << "dividing by 0!" << std::endl;
+	}
+
+	return normalised;
 }
 
 Vector Vector::cross(Vector v)
