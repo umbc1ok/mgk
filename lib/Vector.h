@@ -24,12 +24,14 @@ public:
 
 	void div(float a);
 
-	float dot(Vector v);
-
 	float findAngle(Vector v);
 	
-	Vector normalize(Vector v);
+	Vector normalize();
+	 
+	//iloczyn skalarny
+	float dot(Vector v);
 
+	//iloczyn wektorowy
 	Vector cross(Vector v);
 
 	~Vector();
