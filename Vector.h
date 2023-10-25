@@ -1,5 +1,3 @@
-#ifdef MGK_VECOR_H
-#define MGK_VECTOR_H
 class Vector
 {
 private:
@@ -13,8 +11,9 @@ public:
 		: x(x), y(y), z(z)
 	{
 	}
+	Vector();
 
-	float lenght();
+	float length();
 
 	void add(Vector v);
 
@@ -25,18 +24,18 @@ public:
 	void div(float a);
 
 	float findAngle(Vector v);
-	
+
 	Vector normalize();
-	 
+
 	//iloczyn skalarny
 	float dot(Vector v);
 
 	//iloczyn wektorowy
+	
 	Vector cross(Vector v);
 
 	~Vector();
 };
 
-#endif // MGK_VECTOR_H
 
 
