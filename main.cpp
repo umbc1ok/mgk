@@ -1,6 +1,7 @@
+#define _USE_MATH_DEFINES
 #include "Vector.h"
 #include <iostream>
-
+#include <cmath>
 
 int main() {
 
@@ -24,7 +25,8 @@ int main() {
 	// find the angle between two vectors
 	Vector v5(0, 3, 0);
 	Vector v6(5, 5, 0);
-	std::cout << v5.findAngle(v6) << std::endl;
+	std::cout << v5.findAngle(v6) << " rad" << std::endl;
+	std::cout << v5.findAngle(v6) * 180.0 / M_PI << " stopni" << std::endl;
 
 
 	// znajdywanie wektora prostopadlego
@@ -36,9 +38,9 @@ int main() {
 	std::cout << v9.x << v9.y << v9.z << std::endl;
 
 	// normalize a vector
-	Vector v9(1, 2, 3);
-	Vector v10 = v9.normalize();
-	std::cout << v10.x << v10.y << v10.z << std::endl;
+	Vector v10(1, 2, 3);
+	Vector v11 = v10.normalize();
+	std::cout << v11.x << " " << v11.y  << " " << v11.z << std::endl;
 
 
 }
