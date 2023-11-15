@@ -1,6 +1,11 @@
 #include "Matrix4x4.h"
 #include <iostream>
 #include <iomanip>
+#include "Vector.h"
+#include <math.h>
+#include <corecrt_math_defines.h>
+
+#define _USE_MATH_DEFINES
 
 
 Matrix4x4::Matrix4x4(float data[4][4]) {
@@ -129,4 +134,34 @@ Matrix4x4 Matrix4x4::getInversionOfMatrix() const
 void Matrix4x4::invertMatrix()
 {
     setMatrixAsInsversionOfGivenMatrix(*this);
+}
+
+
+
+// These 3 are exclusively for 4x4 matrices
+void Matrix4x4::SetRotationX(const double angle) {
+    LoadIdentity();
+    matrix[1][1] = (float)cos(M_PI * angle / 180);
+    matrix[2][1] = (float)sin(M_PI * angle / 180);
+
+    matrix[1][2] = -matrix[2][1];
+    matrix[2][2] = matrix[1][1];
+}
+
+void Matrix4x4::SetRotationY(const double angle) {
+    LoadIdentity();
+    matrix[0][0] = (float)cos(M_PI * angle / 180);
+    matrix[0][2] = (float)sin(M_PI * angle / 180);
+
+    matrix[2][2] = matrix[0][0];
+    matrix[2][0] = -matrix[0][2];
+}
+
+void Matrix4x4::SetRotationZ(const double angle) {
+    LoadIdentity();
+    matrix[0][0] = (float)cos(M_PI * angle / 180);
+    matrix[0][1] = -(float)sin(M_PI * angle / 180);
+
+    matrix[1][0] = -matrix[0][1];
+    matrix[1][1] = matrix[0][0];
 }

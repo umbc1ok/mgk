@@ -34,4 +34,10 @@ public:
 
 	void invertMatrix();
 
+	void SetRotationX(const double angle);
+
+	void SetRotationY(const double angle);
+
+	void SetRotationZ(const double angle);
+
 };
