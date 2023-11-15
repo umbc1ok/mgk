@@ -1,4 +1,6 @@
 #include "Matrix4x4.h"
+#include <iostream>
+#include <iomanip>
 
 
 Matrix4x4::Matrix4x4(float data[4][4]) {
@@ -23,8 +25,8 @@ void Matrix4x4::LoadIdentity()
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {
             matrix[i][j] = 0;
-            if(i == j)
-				matrix[i][j] = 1;
+            if (i == j)
+                matrix[i][j] = 1;
         }
     }
 
@@ -89,7 +91,7 @@ void Matrix4x4::setMatrixAsInsversionOfGivenMatrix(const Matrix4x4& other)
     float det = t1 * other.matrix[2][0] - t2 * other.matrix[1][1] - t3 * other.matrix[2][0] + t4 * other.matrix[1][3] + t5 * other.matrix[2][1] - t6 * other.matrix[1][0];
 
     if (det == 0)
-		return;
+        return;
 
     float invdet = 1 / det;
 
@@ -102,7 +104,7 @@ void Matrix4x4::setMatrixAsInsversionOfGivenMatrix(const Matrix4x4& other)
     float m2 = (other.matrix[0][1] * other.matrix[1][1] - other.matrix[1][0] * other.matrix[0][2]) * invdet;
     float m5 = (other.matrix[0][0] * other.matrix[1][1] - t5) * invdet;
     float m8 = (t1 - t3) * invdet;
-    
+
     matrix[0][0] = m0;
     matrix[0][3] = m3;
     matrix[1][2] = m6;
@@ -126,9 +128,5 @@ Matrix4x4 Matrix4x4::getInversionOfMatrix() const
 
 void Matrix4x4::invertMatrix()
 {
-	setMatrixAsInsversionOfGivenMatrix(*this);
+    setMatrixAsInsversionOfGivenMatrix(*this);
 }
-
-
-
-

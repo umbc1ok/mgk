@@ -27,13 +27,10 @@ public:
 	float dot(Vector v);
 
 	//iloczyn wektorowy
-	
+
 	Vector cross(Vector v);
 
 	bool operator==(Vector other);
 
 	~Vector();
 };
-
-
-
