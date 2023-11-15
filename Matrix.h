@@ -27,9 +27,4 @@ public:
 
 	// inversion function (for all dimensions), although not all matrices are invertible
 
-
-	// scaling functions for vectors
-
-	// translation matrices for vectors
-
 };

@@ -44,5 +44,24 @@ Matrix RotationZ(const double angle) {
 	matrix.matrix[1][0] = -matrix.matrix[0][1];
 	matrix.matrix[1][1] = matrix.matrix[0][0];
 }
+Matrix ScaleXYZ(float x, float y, float z)
+{
+	Matrix matrix = GetIdentity(4);
+	matrix.matrix[0][0] = x;
+	matrix.matrix[1][1] = y;
+	matrix.matrix[2][2] = z;
+
+	return matrix;
+}
+
+Matrix Translation(float x, float y, float z)
+{
+	Matrix matrix = GetIdentity(4);
+	matrix.matrix[0][3] = x;
+	matrix.matrix[1][3] = y;
+	matrix.matrix[2][3] = z;
+
+	return matrix;
+}
 
 
