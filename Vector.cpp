@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cmath>
+#include "Matrix.h"
 
 Vector::Vector(float x, float y, float z) : x(x), y(y), z(z) {};
 
@@ -87,8 +88,6 @@ bool Vector::operator==(Vector other)
 {
 	return this->x == other.x && this->y == other.y && this->z == other.z;
 }
-
-
 
 Vector::~Vector()
 {

@@ -5,11 +5,11 @@
 v dodawanie
 v odejmowanie
 v mno¿enie przez skalar
-- mno¿enie przez macierz
-- macierz jednostkowa
+v mno¿enie przez macierz
+v macierz jednostkowa
 - transponowanie
 - macierz odwrotna
--- > wyznacznik do 4x4
+v > wyznacznik do 4x4
 */
 
 

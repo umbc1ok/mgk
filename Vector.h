@@ -32,5 +32,7 @@ public:
 
 	bool operator==(Vector other);
 
+	Vector operator*(const Matrix& matrix) const;
+
 	~Vector();
 };
