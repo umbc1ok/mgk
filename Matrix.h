@@ -23,8 +23,8 @@ public:
 
 	void setMatrixAsTranspose(Matrix& m);
 	Matrix getTransposeOfMatrix() ;
-	void setInverseOfMatrix(const Matrix& m) ;
-	Matrix getInversionOfMatrix2x2() const;
+	Matrix getInverseOfMatrix( Matrix& m) ;
+
 	
 	void Print();
 

@@ -148,20 +148,19 @@ Matrix Matrix::getTransposeOfMatrix()  {
 
 
 
-void Matrix::setInverseOfMatrix(const Matrix& m) 
+Matrix Matrix::getInverseOfMatrix(Matrix& m) 
 {
-	Matrix pom = m;
 	// the returns shouldn't be there like this but i dont have energy to fix it
 	if (m.rows != m.cols) {
 		std::cout << "<=(Macierz nie jest kwadratowa, nei da sie :<)" << std::endl;
 	}
-	if (pom.Determinant() == 0) {
+	if (m.Determinant() == 0) {
 		std::cout<<"(Wyznacznik macierzy jest rowny 0, ni da sie wyznaczyc macierzy odwrotnej)"<<std::endl;;
 	}
 	else 
 	{
 		Matrix result;
-		float invDet = 1.0 / pom.Determinant();
+		float invDet = 1.0 / m.Determinant();
 
 		if (m.cols == 2)
 		{
@@ -176,6 +175,8 @@ void Matrix::setInverseOfMatrix(const Matrix& m)
 			result.matrix[0][1] = d01;
 			result.matrix[1][0] = d10;
 			result.matrix[1][1] = d11;
+
+			return result;
 
 		}
 		else if (m.cols == 3) {
@@ -203,10 +204,16 @@ void Matrix::setInverseOfMatrix(const Matrix& m)
 			result.matrix[2][1] = m7;
 			result.matrix[2][2] = m8;
 
+			return result;
+
 		}
 		
 		else if (m.cols == 4) {
 			std::cout << "wyznacznik macierzy 4x4" << invDet << "\n";
+			result = Matrix(4, 4);
+
+			//maciez dope³nien
+			
 
 		}
 		else {
@@ -216,12 +223,6 @@ void Matrix::setInverseOfMatrix(const Matrix& m)
 	}
 }
 
-Matrix Matrix::getInversionOfMatrix2x2() const
-{
-	Matrix result(2,2);
-	result.setInverseOfMatrix(*this);
-	return result;
-}
 
 
 

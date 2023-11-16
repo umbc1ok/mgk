@@ -52,7 +52,7 @@ int main() {
 	std::cout << "\n";
 
 	Matrix zz2(3, 3);
-	//zz2.getInverseOfMatrix(zz);
+	zz2.getInverseOfMatrix(zz);
 	zz2.Multiply(zz);
 	std::cout << "if all are ones, then it's ok" << std::endl;
 	zz2.Print();
@@ -133,9 +133,9 @@ int main() {
 
 	//MACIRZ ODWROTNA
 std::cout << "INVERSE\n BBB" << std::endl;
-	Matrix oo(2, 2);
-	Matrix ss(2, 2);
-	/*oo.matrix[0][0] = 2;
+	Matrix oo(3, 3);
+	Matrix ss(3, 3);
+	oo.matrix[0][0] = 2;
 	oo.matrix[0][1] = 5;
 	oo.matrix[0][2] = 7;
 
@@ -145,23 +145,23 @@ std::cout << "INVERSE\n BBB" << std::endl;
 
 	oo.matrix[2][0] = 5;
 	oo.matrix[2][1] = -2;
-	oo.matrix[2][2] = -3;*/
+	oo.matrix[2][2] = -3;
 
 
-	oo.matrix[0][0] = -2;
+	/*oo.matrix[0][0] = -2;
 	oo.matrix[0][1] = 3;
 
 	oo.matrix[1][0] = -4;
-	oo.matrix[1][1] = 7;
+	oo.matrix[1][1] = 7;*/
 
 
 
 	oo.Print();
 	std::cout << "macierz po inwersji \n";
 
-	oo.getInversionOfMatrix2x2();
+	ss = oo.getInverseOfMatrix(oo);
 
-	oo.Print();
+	ss.Print();
 	std::cout << "\n";
 }
 
