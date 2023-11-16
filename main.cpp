@@ -22,6 +22,16 @@ int main() {
 	zz.matrix[2][1] = 1;
 	zz.matrix[2][2] = 3;
 
+	std::cout << "Determinant:" << zz.Determinant() << std::endl;
+	std::cout << "transpose test:" << std::endl;
+	zz.Print();
+	std::cout << std::endl;
+	zz.setMatrixAsTranspose(zz);
+	zz.Print();
+	std::cout << std::endl;
+
+
+
 	std::cout << "Add itself:" << std::endl;
 	zz.Print();
 	std::cout << "\n";
@@ -41,6 +51,12 @@ int main() {
 	zz.Print();
 	std::cout << "\n";
 
+	Matrix zz2(3, 3);
+	zz2.getInverseOfMatrix(zz);
+	zz2.Multiply(zz);
+	std::cout << "if all are ones, then it's ok" << std::endl;
+	zz2.Print();
+	std::cout << std::endl;
 
 
 	std::cout << "Subtract itself" << std::endl;
