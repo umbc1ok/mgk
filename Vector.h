@@ -1,3 +1,5 @@
+#pragma once
+
 class Vector
 {
 
@@ -31,8 +33,6 @@ public:
 	Vector cross(Vector v);
 
 	bool operator==(Vector other);
-
-	Vector operator*(const Matrix& matrix) const;
 
 	~Vector();
 };

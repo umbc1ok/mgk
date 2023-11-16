@@ -1,3 +1,6 @@
+#pragma once
+
+
 #include "Matrix.h"
 #include <iostream>
 
@@ -15,6 +18,13 @@ v > wyznacznik do 4x4
 
 Matrix::Matrix(int rows, int cols)
 {
+	this->matrix = new float* [rows];
+
+	// Allocate memory for each row
+	for (int i = 0; i < rows; ++i) {
+		this->matrix[i] = new float[cols];
+	}
+	
 	this->rows = rows;
 	this->cols = cols;
 	for (int i = 0; i < rows; i++) {
@@ -58,7 +68,7 @@ void Matrix::Multiply(float factor) {
 		}
 	}
 };
-void Matrix::Multiply(Matrix& other) {
+Matrix Matrix::Multiply(Matrix& other) {
 	if (this->cols == other.rows)
 	{
 		Matrix result(this->rows, other.cols);
@@ -69,9 +79,7 @@ void Matrix::Multiply(Matrix& other) {
 				}
 			}
 		}
-		this->rows = result.rows;
-		this->cols = result.cols;
-		this->matrix = result.matrix;
+		return result;
 	}
 	else {
 		std::cout << "Nie mozna pomnozyc macierzy o roznych wymiarach" << std::endl;
@@ -111,7 +119,14 @@ float Matrix::Determinant()
 		std::cout << "Nie mozna wyznaczyc wyznacznika macierzy niekwadratowej" << std::endl;
 	}
 }
-
+void Matrix::Print() {
+	for (int i = 0; i < this->rows; i++) {
+		for (int j = 0; j < this->cols; j++) {
+			std::cout << this->matrix[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+}
 
 
 

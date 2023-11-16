@@ -1,15 +1,21 @@
-#define _USE_MATH_DEFINES
-#include "Vector.h"
+
 #include <iostream>
-#include <cmath>
+#include "Vector.h"
 #include "Matrix.h"
 #include "CommonMatricies.h"
+
+
 
 int main() {
 
 
-	Matrix a = GetIdentity(4);
-
+	Matrix a(4, 1);
+	a.matrix[0][0] = 1;
+	a.matrix[3][0] = 0;
+	Matrix b = RotationY(90);
+	Matrix result = b.Multiply(a);
+	result.Print();
+	return 0;
 
 
 

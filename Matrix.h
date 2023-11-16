@@ -15,16 +15,10 @@ public:
 
 	void Multiply(float factor);
 
-	void Multiply(Matrix& other);
+	Matrix Multiply(Matrix& other);
 
-
-	// determinant function
 	float Determinant();
 
-
-
-	// transpose function (for all dimensions)
-
-	// inversion function (for all dimensions), although not all matrices are invertible
+	void Print();
 
 };
