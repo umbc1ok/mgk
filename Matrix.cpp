@@ -130,11 +130,13 @@ float Matrix::Determinant()
 }
 
 void Matrix::setMatrixAsTranspose(Matrix & m) {
+	Matrix result(m.cols, m.rows);
 		for (int i = 0; i < m.rows; i++) {
 			for (int j = 0; j < m.cols; j++) {
-				this->matrix[i][j] = m.matrix[j][i];
+				result.matrix[i][j] = m.matrix[j][i];
 			}
 		}
+		this->matrix = result.matrix;
 	}
 
 Matrix Matrix::getTransposeOfMatrix()  {
