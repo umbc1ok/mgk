@@ -8,6 +8,14 @@
 #define _USE_MATH_DEFINES
 
 
+Matrix4x4::Matrix4x4()
+{
+}
+
+Matrix4x4::~Matrix4x4()
+{
+}
+
 Matrix4x4::Matrix4x4(float data[4][4]) {
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {

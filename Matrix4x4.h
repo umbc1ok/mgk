@@ -2,18 +2,11 @@
 class Matrix4x4
 {
 public:
-	int rows;
-	int cols;
 	int** matrix;
 
-	Matrix4x4(int rows, int cols) {
 
-	};
 	Matrix4x4();
 	~Matrix4x4();
-	int getRows();
-	int getCols();
-
 	Matrix4x4(float data[4][4]);
 
 	void print() const;

@@ -5,9 +5,9 @@
 v dodawanie
 v odejmowanie
 v mno¿enie przez skalar
-- mno¿enie przez macierz
-- macierz jednostkowa
-- transponowanie
+v mno¿enie przez macierz
+v macierz jednostkowa (jest w CommonMatricies.h)
+v transponowanie
 - macierz odwrotna
 -- > wyznacznik do 4x4
 */
@@ -110,9 +110,51 @@ float Matrix::Determinant()
 	else {
 		std::cout << "Nie mozna wyznaczyc wyznacznika macierzy niekwadratowej" << std::endl;
 	}
+
+	
 }
 
+void Matrix::setMatrixAsTranspose(Matrix & m) {
+		for (int i = 0; i < m.rows; i++) {
+			for (int j = 0; j < m.cols; j++) {
+				this->matrix[i][j] = m.matrix[j][i];
+			}
+		}
+	}
 
+Matrix Matrix::getTransposeOfMatrix()  {
+	Matrix result;
+	result.setMatrixAsTranspose(*this);
+	return result;
+}
+
+Matrix Matrix::getInverseOfMatrix(Matrix& m) const
+{
+	if (m.rows != m.cols) {
+		std::cout << "<=(Macierz nie jest kwadratowa, nei da sie :<)" << std::endl;
+		return;
+	}
+	if (m.Determinant() == 0) {
+		std::cout<<"(Wyznacznik macierzy jest rowny 0, ni da sie wyznaczyc macierzy odwrotnej)"<<std::endl;
+		return;
+	}
+	else 
+	{
+		Matrix result;
+		float invDet = 1.0 / m.Determinant();
+
+		for (int i = 0; i < m.rows; i++) {
+			for (int j = 0; j < m.cols; j++) {
+				result.matrix[i][j] = invDet * (
+					m.matrix[(j + 1) % m.cols][(i + 1) % m.rows] * m.matrix[(j + 2) % m.cols][(i + 2) % m.rows] -
+					m.matrix[(j + 1) % m.cols][(i + 2) % m.rows] * m.matrix[(j + 2) % m.cols][(i + 1) % m.rows]
+					);
+			}
+		}
+
+		return result;
+	}
+}
 
 
 
