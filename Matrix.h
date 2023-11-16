@@ -9,6 +9,8 @@ public:
 	Matrix();
 	Matrix(int rows, int cols);
 
+	void Print() const;
+
 	void Add(Matrix& other);
 
 	void Subtract(Matrix& other);

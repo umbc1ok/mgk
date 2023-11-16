@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include <iomanip>
 #include "Matrix.h"
 #include <iostream>
 
@@ -83,6 +83,7 @@ Matrix Matrix::Multiply(Matrix& other) {
 	}
 	else {
 		std::cout << "Nie mozna pomnozyc macierzy o roznych wymiarach" << std::endl;
+		return Matrix();
 	}
 }
 float Matrix::Determinant()
@@ -113,10 +114,12 @@ float Matrix::Determinant()
 		}
 		else {
 			std::cout << "Nie potrafimy wyznaczyc wyznacznika macierzy wiekszej niz 4x4 :(" << std::endl;
+			return -1;	
 		}
 	}
 	else {
 		std::cout << "Nie mozna wyznaczyc wyznacznika macierzy niekwadratowej" << std::endl;
+		return -1;
 	}
 
 	
@@ -140,11 +143,11 @@ Matrix Matrix::getInverseOfMatrix(Matrix& m) const
 {
 	if (m.rows != m.cols) {
 		std::cout << "<=(Macierz nie jest kwadratowa, nei da sie :<)" << std::endl;
-		return;
+		return m;
 	}
 	if (m.Determinant() == 0) {
 		std::cout<<"(Wyznacznik macierzy jest rowny 0, ni da sie wyznaczyc macierzy odwrotnej)"<<std::endl;
-		return;
+		return m;
 	}
 	else 
 	{
@@ -164,6 +167,15 @@ Matrix Matrix::getInverseOfMatrix(Matrix& m) const
 	}
 }
 
+
+void Matrix::Print() const {
+	for (int i = 0; i < this->rows; ++i) {
+		for (int j = 0; j < this->cols; ++j) {
+			std::cout << std::setw(8) << matrix[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+}
 
 
 
