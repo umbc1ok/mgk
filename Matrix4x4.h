@@ -1,3 +1,4 @@
+/*
 #pragma once
 class Matrix4x4
 {
@@ -34,3 +35,4 @@ public:
 	void SetRotationZ(const double angle);
 
 };
+*/

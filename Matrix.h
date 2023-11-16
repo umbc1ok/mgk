@@ -15,20 +15,20 @@ public:
 
 	void Multiply(float factor);
 
-	void Multiply(Matrix& other);
+	Matrix Multiply(Matrix& other);
 
-
-	// determinant function
 	float Determinant();
 
 
 
 	// transpose function (for all dimensions)
+
 	void setMatrixAsTranspose(Matrix& m);
-	Matrix getTransposeOfMatrix() ;
+	Matrix getTransposeOfMatrix();
+	Matrix getInverseOfMatrix(Matrix& m) const;
 
 	// inversion function (for all dimensions), although not all matrices are invertible
-	Matrix getInverseOfMatrix(Matrix& m) const;
+
 
 	// scaling functions for vectors
 

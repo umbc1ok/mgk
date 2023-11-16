@@ -1,11 +1,26 @@
-#define _USE_MATH_DEFINES
-#include "Vector.h"
+
 #include <iostream>
-#include <cmath>
+#include "Vector.h"
+#include "Matrix.h"
+#include "CommonMatricies.h"
+
+
 
 int main() {
 
 
+	Matrix a(4, 1);
+	a.matrix[0][0] = 1;
+	a.matrix[3][0] = 0;
+	Matrix b = RotationY(90);
+	Matrix result = b.Multiply(a);
+	result.Print();
+	return 0;
+
+
+
+
+	/*
 	// addition commutativity
 	Vector v1(1, 2, 3);
 	Vector v2(3, 4, 5);
@@ -41,6 +56,11 @@ int main() {
 	Vector v10(1, 2, 3);
 	Vector v11 = v10.normalize();
 	std::cout << v11.x << " " << v11.y  << " " << v11.z << std::endl;
+
+	*/
+
+
+
 
 
 }

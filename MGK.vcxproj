@@ -139,13 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommonMatricies.cpp" />
+    <ClCompile Include="CommonMatricies.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommonMatricies.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Vector.h" />
