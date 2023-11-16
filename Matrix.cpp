@@ -142,15 +142,15 @@ void Matrix::setMatrixAsTranspose(Matrix & m) {
 		this->matrix = result.matrix;
 	}
 
-Matrix Matrix::getTransposeOfMatrix()  {
+Matrix Matrix::getTransposeOfMatrix(Matrix m)  {
 	Matrix result;
-	result.setMatrixAsTranspose(*this);
+	result.setMatrixAsTranspose(m);
 	return result;
 }
 
 
 
-Matrix Matrix::getInverseOfMatrix(Matrix& m) 
+Matrix Matrix::getInverseOfMatrix(Matrix m)
 {
 	// the returns shouldn't be there like this but i dont have energy to fix it
 	if (m.rows != m.cols) {
@@ -214,9 +214,9 @@ Matrix Matrix::getInverseOfMatrix(Matrix& m)
 			std::cout << "wyznacznik macierzy 4x4" << invDet << "\n";
 			result = Matrix(4, 4);
 
-			for (unsigned int i = 0; i < rows; i++) {
-				for (unsigned int j = 0; j < cols; j++) {
-					float cofactor = cofactorAt(i, j);
+			for (unsigned int i = 0; i < m.rows; i++) {
+				for (unsigned int j = 0; j < m.cols; j++) {
+					float cofactor = m.cofactorAt(i, j);
 					result.matrix[i][j] = cofactor;
 				}
 			}

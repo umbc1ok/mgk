@@ -22,8 +22,8 @@ public:
 	float Determinant();
 
 	void setMatrixAsTranspose(Matrix& m);
-	Matrix getTransposeOfMatrix() ;
-	Matrix getInverseOfMatrix( Matrix& m) ;
+	static Matrix getTransposeOfMatrix(Matrix m) ;
+	static Matrix getInverseOfMatrix( Matrix m) ;
 
 	float cofactorAt(unsigned int row, unsigned int col) const;
 
