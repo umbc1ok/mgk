@@ -9,13 +9,87 @@
 int main() {
 
 
+	Matrix zz(3, 3);
+	zz.matrix[0][0] = 1;
+	zz.matrix[0][1] = 2;
+	zz.matrix[0][2] = 4;
+
+	zz.matrix[1][0] = 5;
+	zz.matrix[1][1] = 1;
+	zz.matrix[1][2] = 3;
+
+	zz.matrix[2][0] = 1;
+	zz.matrix[2][1] = 1;
+	zz.matrix[2][2] = 3;
+
+	std::cout << "Add itself:" << std::endl;
+	zz.Print();
+	std::cout << "\n";
+
+	zz.Add(zz);
+
+	zz.Print();
+	std::cout << "\n";
+
+
+	std::cout << "Multiply x2:" << std::endl;
+	zz.Print();
+	std::cout << "\n";
+
+	zz.Multiply(2);
+
+	zz.Print();
+	std::cout << "\n";
+
+
+
+	std::cout << "Subtract itself" << std::endl;
+	zz.Print();
+	std::cout << "\n";
+
+	zz.Subtract(zz);
+
+	zz.Print();
+	std::cout << "\n";
+
+
+
+
+
+
+
+
+	// ROTATION TEST
 	Matrix a(4, 1);
 	a.matrix[0][0] = 1;
 	a.matrix[3][0] = 0;
 	Matrix b = RotationY(90);
 	Matrix result = b.Multiply(a);
 	result.Print();
-	return 0;
+
+
+
+
+
+	// PRZEMIENNOSC MNOZENIA MACIERZY
+	Matrix aa(2, 2);
+	aa.matrix[0][0] = 1;
+	aa.matrix[0][1] = 2;
+	aa.matrix[1][0] = 6;
+	aa.matrix[1][1] = 2;
+	Matrix bb(2, 2);
+	bb.matrix[0][0] = 3;
+	bb.matrix[0][1] = 7;
+	bb.matrix[1][0] = 1;
+	bb.matrix[1][1] = 3;
+
+	Matrix cc = aa.Multiply(bb);
+	Matrix dd = bb.Multiply(aa);
+
+	std::cout << "CC\n";
+	cc.Print();
+	std::cout << "DD\n";
+	dd.Print();
 
 
 

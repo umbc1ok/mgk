@@ -16,6 +16,10 @@ v > wyznacznik do 4x4
 */
 
 
+Matrix::Matrix()
+{
+}
+
 Matrix::Matrix(int rows, int cols)
 {
 	this->matrix = new float* [rows];
@@ -138,13 +142,14 @@ Matrix Matrix::getTransposeOfMatrix()  {
 
 Matrix Matrix::getInverseOfMatrix(Matrix& m) const
 {
+	// the returns shouldn't be there like this but i dont have energy to fix it
 	if (m.rows != m.cols) {
 		std::cout << "<=(Macierz nie jest kwadratowa, nei da sie :<)" << std::endl;
-		return;
+		return Matrix();
 	}
 	if (m.Determinant() == 0) {
 		std::cout<<"(Wyznacznik macierzy jest rowny 0, ni da sie wyznaczyc macierzy odwrotnej)"<<std::endl;
-		return;
+		return Matrix();
 	}
 	else 
 	{
@@ -161,6 +166,16 @@ Matrix Matrix::getInverseOfMatrix(Matrix& m) const
 		}
 
 		return result;
+	}
+}
+
+void Matrix::Print() {
+	for (int i = 0; i < rows; i++) {
+		std::cout << "| ";
+		for (int j = 0; j < cols; j++) {
+			std::cout << matrix[i][j] << " ";
+		}
+		std::cout << "|" << std::endl;
 	}
 }
 

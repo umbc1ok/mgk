@@ -6,8 +6,6 @@
 #include <corecrt_math.h>
 #define _USE_MATH_DEFINES
 
-
-// it's basing on a constructor that zeros the matrix
 Matrix GetIdentity(int size)
 {
 	Matrix result = Matrix(size, size);
@@ -69,3 +67,6 @@ Matrix Translation(float x, float y, float z)
 
 	return matrix;
 }
+
+// it's basing on a constructor that zeros the matrix
+
