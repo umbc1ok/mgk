@@ -217,10 +217,10 @@ Matrix Matrix::getInverseOfMatrix(Matrix& m)
 			for (unsigned int i = 0; i < rows; i++) {
 				for (unsigned int j = 0; j < cols; j++) {
 					float cofactor = cofactorAt(i, j);
-					result.matrix[j][i] = cofactor;
+					result.matrix[i][j] = cofactor;
 				}
 			}
-
+			result.setMatrixAsTranspose(result);
 			result.Multiply(invDet);
 
 			return result;

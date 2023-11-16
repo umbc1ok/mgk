@@ -47,7 +47,7 @@ int main() {
 	czteryDe.Print();
 	std::cout << "Determinant:" << czteryDe.Determinant() << std::endl;
 	std::cout << "Inversed:" << std::endl;
-	zz.getInverseOfMatrix(czteryDe).Print();
+	czteryDe.getInverseOfMatrix(czteryDe).Print();
 
 
 
