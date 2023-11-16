@@ -97,28 +97,30 @@ float Matrix::Determinant()
 			return matrix[0][0];
 		}
 		else if (cols == 2) {
-			return matrix[0][0]* matrix[1][1] - matrix[0][1] * matrix[1][0];
+			return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
 		}
 		else if (cols == 3) {
 			return matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1] - matrix[0][2] * matrix[1][1] * matrix[2][0] - matrix[0][1] * matrix[1][0] * matrix[2][2] - matrix[0][0] * matrix[1][2] * matrix[2][1];
 		}
 		else if (cols == 4) {
 
-			// not sure if it's the right way but I dont care
-			float t1 = matrix[0][0] * matrix[1][0];
-			float t2 = matrix[0][0] * matrix[1][3];
-			float t3 = matrix[0][3] * matrix[0][1];
-			float t4 = matrix[1][2] * matrix[0][1];
-			float t5 = matrix[0][3] * matrix[0][2];
-			float t6 = matrix[1][2] * matrix[0][2];
-
-			//calculate the determinant
-			float det = t1 * matrix[2][0] - t2 * matrix[1][1] - t3 * matrix[2][0] + t4 * matrix[1][3] + t5 * matrix[2][1] - t6 * matrix[1][0];
+			float det = matrix[0][3] * matrix[1][2] * matrix[2][1] * matrix[3][0] - matrix[0][2] * matrix[1][3] * matrix[2][1] * matrix[3][0] -
+				matrix[0][3] * matrix[1][1] * matrix[2][2] * matrix[3][0] + matrix[0][1] * matrix[1][3] * matrix[2][2] * matrix[3][0] +
+				matrix[0][2] * matrix[1][1] * matrix[2][3] * matrix[3][0] - matrix[0][1] * matrix[1][2] * matrix[2][3] * matrix[3][0] -
+				matrix[0][3] * matrix[1][2] * matrix[2][0] * matrix[3][1] + matrix[0][2] * matrix[1][3] * matrix[2][0] * matrix[3][1] +
+				matrix[0][3] * matrix[1][0] * matrix[2][2] * matrix[3][1] - matrix[0][0] * matrix[1][3] * matrix[2][2] * matrix[3][1] -
+				matrix[0][2] * matrix[1][0] * matrix[2][3] * matrix[3][1] + matrix[0][0] * matrix[1][2] * matrix[2][3] * matrix[3][1] +
+				matrix[0][3] * matrix[1][1] * matrix[2][0] * matrix[3][2] - matrix[0][1] * matrix[1][3] * matrix[2][0] * matrix[3][2] -
+				matrix[0][3] * matrix[1][0] * matrix[2][1] * matrix[3][2] + matrix[0][0] * matrix[1][3] * matrix[2][1] * matrix[3][2] +
+				matrix[0][1] * matrix[1][0] * matrix[2][3] * matrix[3][2] - matrix[0][0] * matrix[1][1] * matrix[2][3] * matrix[3][2] -
+				matrix[0][2] * matrix[1][1] * matrix[2][0] * matrix[3][3] + matrix[0][1] * matrix[1][2] * matrix[2][0] * matrix[3][3] +
+				matrix[0][2] * matrix[1][0] * matrix[2][1] * matrix[3][3] - matrix[0][0] * matrix[1][2] * matrix[2][1] * matrix[3][3] -
+				matrix[0][1] * matrix[1][0] * matrix[2][2] * matrix[3][3] + matrix[0][0] * matrix[1][1] * matrix[2][2] * matrix[3][3];
 			return det;
 		}
 		else {
 			std::cout << "Nie potrafimy wyznaczyc wyznacznika macierzy wiekszej niz 4x4 :(" << std::endl;
-			return -1;	
+			return -1;
 		}
 	}
 	else {
@@ -212,9 +214,62 @@ Matrix Matrix::getInverseOfMatrix(Matrix& m)
 			std::cout << "wyznacznik macierzy 4x4" << invDet << "\n";
 			result = Matrix(4, 4);
 
-			//maciez dope³nien
-			
+			for (unsigned int i = 0; i < rows; i++) {
+				for (unsigned int j = 0; j < cols; j++) {
+					float cofactor = cofactorAt(i, j);
+					result.matrix[j][i] = cofactor;
+				}
+			}
 
+			result.Multiply(invDet);
+
+			return result;
+
+
+			/*
+			result.matrix[0][0]
+				= m.matrix[1][1] * m.matrix[2][2] * m.matrix[3][3]
+				+ m.matrix[1][2] * m.matrix[2][3] * m.matrix[3][1]
+				+ m.matrix[1][3] * m.matrix[2][1] * m.matrix[3][2]
+				- m.matrix[1][1] * m.matrix[2][3] * m.matrix[3][2]
+				- m.matrix[1][2] * m.matrix[2][1] * m.matrix[3][3]
+				- m.matrix[1][3] * m.matrix[2][2] * m.matrix[3][1];
+			result.matrix[0][1]
+				= m.matrix[0][1] * m.matrix[2][3] * m.matrix[3][2] 
+				+ m.matrix[0][2] * m.matrix[2][1] * m.matrix[3][3]
+				+ m.matrix[0][3] * m.matrix[2][2] * m.matrix[3][1]
+				- m.matrix[0][1] * m.matrix[2][2] * m.matrix[3][3]
+				- m.matrix[0][2] * m.matrix[2][3] * m.matrix[3][1]
+				- m.matrix[0][3] * m.matrix[2][1] * m.matrix[3][2];
+			result.matrix[0][2]
+				= m.matrix[0][1] * m.matrix[1][2] * m.matrix[3][3]
+				+ m.matrix[0][2] * m.matrix[1][3] * m.matrix[3][1]
+				+ m.matrix[0][3] * m.matrix[1][1] * m.matrix[3][2]
+				- m.matrix[0][1] * m.matrix[1][3] * m.matrix[3][2]
+				- m.matrix[0][2] * m.matrix[1][1] * m.matrix[3][3]
+				- m.matrix[0][3] * m.matrix[1][2] * m.matrix[3][1];
+			result.matrix[0][3]
+				= m.matrix[0][1] * m.matrix[1][3] * m.matrix[3][2]
+				+ m.matrix[0][2] * m.matrix[1][1] * m.matrix[3][3]
+				+ m.matrix[0][3] * m.matrix[1][2] * m.matrix[3][1]
+				- m.matrix[0][1] * m.matrix[1][2] * m.matrix[3][3]
+				- m.matrix[0][2] * m.matrix[1][3] * m.matrix[3][1]
+				- m.matrix[0][3] * m.matrix[1][1] * m.matrix[3][2];
+			result.matrix[1][0]
+				= m.matrix[1][0] * m.matrix[2][3] * m.matrix[3][2]
+				+ m.matrix[1][2] * m.matrix[2][0] * m.matrix[3][3]
+				+ m.matrix[1][3] * m.matrix[2][2] * m.matrix[3][0]
+				- m.matrix[1][0] * m.matrix[2][2] * m.matrix[3][3]
+				- m.matrix[1][2] * m.matrix[2][3] * m.matrix[3][0]
+				- m.matrix[1][3] * m.matrix[2][0] * m.matrix[3][2];
+			result.matrix[1][1]
+				= m.matrix[0][1] * m.matrix[2][3] * m.matrix[3][2]
+				+ m.matrix[0][2] * m.matrix[2][1] * m.matrix[3][3]
+				+ m.matrix[0][3] * m.matrix[2][2] * m.matrix[3][1]
+				- m.matrix[0][1] * m.matrix[2][2] * m.matrix[3][3]
+				- m.matrix[0][2] * m.matrix[2][3] * m.matrix[3][1]
+				- m.matrix[0][3] * m.matrix[2][1] * m.matrix[3][2];
+				*/
 		}
 		else {
 			std::cout << "Nie potrafimy wyznaczyc macierzy odwrotnej dla macierzy wiekszej niz 4x4 :(" << std::endl;
@@ -223,7 +278,23 @@ Matrix Matrix::getInverseOfMatrix(Matrix& m)
 	}
 }
 
+float Matrix::cofactorAt(unsigned int row, unsigned int col) const
+{
+	Matrix minor(rows - 1, cols - 1);
+	for (unsigned int i = 0, r = 0; i < rows; i++) {
+		if (i == row)
+			continue;
+		for (unsigned int j = 0, c = 0; j < cols; j++) {
+			if (j == col)
+				continue;
+			minor.matrix[r][c] = matrix[i][j];
+			c++;
+		}
+		r++;
+	}
 
+	return minor.Determinant() * ((row + col) % 2 == 0 ? 1.0 : -1.0);
+}
 
 
 

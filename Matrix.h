@@ -25,6 +25,8 @@ public:
 	Matrix getTransposeOfMatrix() ;
 	Matrix getInverseOfMatrix( Matrix& m) ;
 
+	float cofactorAt(unsigned int row, unsigned int col) const;
+
 	
 	void Print();
 

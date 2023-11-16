@@ -22,6 +22,38 @@ int main() {
 	zz.matrix[2][1] = 1;
 	zz.matrix[2][2] = 3;
 
+	Matrix czteryDe(4, 4);
+	czteryDe.matrix[0][0] = 1;
+	czteryDe.matrix[0][1] = 2;
+	czteryDe.matrix[0][2] = 4;
+	czteryDe.matrix[0][3] = 4;
+
+	czteryDe.matrix[1][0] = 5;
+	czteryDe.matrix[1][1] = 1;
+	czteryDe.matrix[1][2] = 3;
+	czteryDe.matrix[1][3] = 1;
+
+	czteryDe.matrix[2][0] = 1;
+	czteryDe.matrix[2][1] = 1;
+	czteryDe.matrix[2][2] = 3;
+	czteryDe.matrix[2][3] = 7;
+
+	czteryDe.matrix[3][0] = 5;
+	czteryDe.matrix[3][1] = 2;
+	czteryDe.matrix[3][2] = 3;
+	czteryDe.matrix[3][3] = 1;
+
+	std::cout << "Matrix:" << std::endl;
+	czteryDe.Print();
+	std::cout << "Determinant:" << czteryDe.Determinant() << std::endl;
+	std::cout << "Inversed:" << std::endl;
+	zz.getInverseOfMatrix(czteryDe).Print();
+
+
+
+
+
+
 	std::cout << "Determinant:" << zz.Determinant() << std::endl;
 	std::cout << "transpose test:" << std::endl;
 	zz.Print();
