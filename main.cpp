@@ -9,13 +9,87 @@
 int main() {
 
 
+	Matrix zz(3, 3);
+	zz.matrix[0][0] = 1;
+	zz.matrix[0][1] = 2;
+	zz.matrix[0][2] = 4;
+
+	zz.matrix[1][0] = 5;
+	zz.matrix[1][1] = 1;
+	zz.matrix[1][2] = 3;
+
+	zz.matrix[2][0] = 1;
+	zz.matrix[2][1] = 1;
+	zz.matrix[2][2] = 3;
+
+	std::cout << "Add itself:" << std::endl;
+	zz.Print();
+	std::cout << "\n";
+
+	zz.Add(zz);
+
+	zz.Print();
+	std::cout << "\n";
+
+
+	std::cout << "Multiply x2:" << std::endl;
+	zz.Print();
+	std::cout << "\n";
+
+	zz.Multiply(2);
+
+	zz.Print();
+	std::cout << "\n";
+
+
+
+	std::cout << "Subtract itself" << std::endl;
+	zz.Print();
+	std::cout << "\n";
+
+	zz.Subtract(zz);
+
+	zz.Print();
+	std::cout << "\n";
+
+
+
+
+
+
+
+
+	// ROTATION TEST
 	Matrix a(4, 1);
 	a.matrix[0][0] = 1;
 	a.matrix[3][0] = 0;
 	Matrix b = RotationY(90);
 	Matrix result = b.Multiply(a);
 	result.Print();
-	return 0;
+
+
+
+
+
+	// PRZEMIENNOSC MNOZENIA MACIERZY
+	Matrix aa(2, 2);
+	aa.matrix[0][0] = 1;
+	aa.matrix[0][1] = 2;
+	aa.matrix[1][0] = 6;
+	aa.matrix[1][1] = 2;
+	Matrix bb(2, 2);
+	bb.matrix[0][0] = 3;
+	bb.matrix[0][1] = 7;
+	bb.matrix[1][0] = 1;
+	bb.matrix[1][1] = 3;
+
+	Matrix cc = aa.Multiply(bb);
+	Matrix dd = bb.Multiply(aa);
+
+	std::cout << "CC\n";
+	cc.Print();
+	std::cout << "DD\n";
+	dd.Print();
 
 
 
@@ -60,34 +134,56 @@ int main() {
 	*/
 
 
-	// sprawdzenie operacji na macierzach
-	Matrix m1(3, 3);
-	Matrix m2(3, 3);
-	m1.matrix[0][0] = 1;
-	m1.matrix[0][1] = 2;
-	m1.matrix[0][2] = 3;
-	m1.matrix[1][0] = 4;
-	m1.matrix[1][1] = 5;
-	m1.matrix[1][2] = 6;
-	m1.matrix[2][0] = 7;
-	m1.matrix[2][1] = 8;
-	m1.matrix[2][2] = 9;
+	////TRANSLACJE
+	//std::cout << "TRANSPOSE\n AAA" << std::endl;
+	//Matrix aaa(2, 5);
+	//aaa.matrix[0][0] = 1;
+	//aaa.matrix[0][1] = 2;
+	//aaa.matrix[0][2] = 4;
+	//aaa.matrix[0][3] = 5;
+	//aaa.matrix[0][4] = 6;
+	//aaa.matrix[1][0] = 6;
+	//aaa.matrix[1][1] = 2;
+	//aaa.matrix[1][2] = 3;
+	//aaa.matrix[1][3] = 4;
+	//aaa.matrix[1][4] = 5;
 
-	m2.matrix[0][0] = 1;
-	m2.matrix[0][1] = 2;
-	m2.matrix[0][2] = 3;
-	m2.matrix[1][0] = 4;
-	m2.matrix[1][1] = 5;
-	m2.matrix[1][2] = 6;
-	m2.matrix[2][0] = 7;
-	m2.matrix[2][1] = 8;
-	m2.matrix[2][2] = 9;
+	//aaa.Print();
+	//std::cout << "\n";
 
-	m1.Subtract(m2);
-	
-	m1.Print();
+	//aaa.getTransposeOfMatrix();
+
+	//aaa.Print();
+	//std::cout << "\n";
 
 
+	//MACIRZ ODWROTNA
+std::cout << "INVERSE\n BBB" << std::endl;
+	Matrix oo(4, 4);
+	Matrix ss(4, 4);
+	oo.matrix[0][0] = 1;
+	oo.matrix[0][1] = 2;
+	oo.matrix[0][2] = 3;
+	oo.matrix[0][3] = 4;
+oo.matrix[1][0] = 2;
+oo.matrix[1][1] = 3;
+oo.matrix[1][2] = 1;
+oo.matrix[1][3] = 2;
+oo.matrix[2][0] = 1;
+oo.matrix[2][1] = 1;
+oo.matrix[2][2] = 1;
+oo.matrix[2][3] = -1;
+oo.matrix[3][0] = 1;
+oo.matrix[3][1] = 0;
+oo.matrix[3][2] = -2;
+oo.matrix[3][3] = -6;
 
+	oo.Print();
+	std::cout << "macierz po inwersji \n";
+
+	ss.getInverseOfMatrix(oo);
+
+	ss.Print();
+	std::cout << "\n";
 }
 

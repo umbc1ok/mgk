@@ -21,19 +21,10 @@ public:
 
 	float Determinant();
 
-
-
-	// transpose function (for all dimensions)
-
 	void setMatrixAsTranspose(Matrix& m);
 	Matrix getTransposeOfMatrix();
 	Matrix getInverseOfMatrix(Matrix& m) const;
-
-	// inversion function (for all dimensions), although not all matrices are invertible
-
-
-	// scaling functions for vectors
-
-	// translation matrices for vectors
+	
+	void Print();
 
 };
