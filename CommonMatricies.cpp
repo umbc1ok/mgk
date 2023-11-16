@@ -14,6 +14,10 @@ Matrix GetIdentity(int size)
 			if (i == j) {
 				result.matrix[i][j] = 1;
 			}
+			else
+			{
+				result.matrix[i][j] = 0;
+			}
 		}
 	}
 	return result;

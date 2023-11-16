@@ -22,8 +22,9 @@ public:
 	float Determinant();
 
 	void setMatrixAsTranspose(Matrix& m);
-	Matrix getTransposeOfMatrix();
-	Matrix getInverseOfMatrix(Matrix& m) const;
+	Matrix getTransposeOfMatrix() ;
+	void setInverseOfMatrix(const Matrix& m) ;
+	Matrix getInversionOfMatrix2x2() const;
 	
 	void Print();
 

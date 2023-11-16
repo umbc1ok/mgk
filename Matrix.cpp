@@ -131,6 +131,7 @@ float Matrix::Determinant()
 
 void Matrix::setMatrixAsTranspose(Matrix & m) {
 	Matrix result(m.cols, m.rows);
+	result.Multiply(0);
 		for (int i = 0; i < m.rows; i++) {
 			for (int j = 0; j < m.cols; j++) {
 				result.matrix[i][j] = m.matrix[j][i];
@@ -145,65 +146,85 @@ Matrix Matrix::getTransposeOfMatrix()  {
 	return result;
 }
 
-Matrix Matrix::getInverseOfMatrix(Matrix& m) const
+
+
+void Matrix::setInverseOfMatrix(const Matrix& m) 
 {
+	Matrix pom = m;
 	// the returns shouldn't be there like this but i dont have energy to fix it
 	if (m.rows != m.cols) {
 		std::cout << "<=(Macierz nie jest kwadratowa, nei da sie :<)" << std::endl;
-		return Matrix();
 	}
-	if (m.Determinant() == 0) {
-		std::cout<<"(Wyznacznik macierzy jest rowny 0, ni da sie wyznaczyc macierzy odwrotnej)"<<std::endl;
-		return Matrix();
+	if (pom.Determinant() == 0) {
+		std::cout<<"(Wyznacznik macierzy jest rowny 0, ni da sie wyznaczyc macierzy odwrotnej)"<<std::endl;;
 	}
 	else 
 	{
 		Matrix result;
-		float invDet = 1.0 / m.Determinant();
-
-		float t1 = m.matrix[0][0] * m.matrix[1][0];
-		float t2 = m.matrix[0][0] * m.matrix[1][3];
-		float t3 = m.matrix[0][3] * m.matrix[0][1];
-		float t4 = m.matrix[1][2] * m.matrix[0][1];
-		float t5 = m.matrix[0][3] * m.matrix[0][2];
-		float t6 = m.matrix[1][2] * m.matrix[0][2];
+		float invDet = 1.0 / pom.Determinant();
 
 		if (m.cols == 2)
 		{
+			result = Matrix(2, 2);
+			std::cout << "wyznacznik macierzy 2x2" << invDet << "\n";
+			float d00 = m.matrix[1][1] * invDet;
+			float d01 = m.matrix[1][0] * -1 * invDet;
+			float d10 = m.matrix[0][1] * -1 * invDet;
+			float d11 = m.matrix[0][0] * invDet;
+
+			result.matrix[0][0] = d00;
+			result.matrix[0][1] = d01;
+			result.matrix[1][0] = d10;
+			result.matrix[1][1] = d11;
 
 		}
-		if (m.cols == 3) {
+		else if (m.cols == 3) {
+			std::cout << "wyznacznik macierzy 3x3 "<< invDet<<"\n";
+			result = Matrix(3, 3);
+			float m0 = (m.matrix[1][1] * m.matrix[2][2] - m.matrix[1][2] * m.matrix[2][1]) * invDet;
+			float m1 = (m.matrix[0][2] * m.matrix[2][1] - m.matrix[0][1] * m.matrix[2][2]) * invDet;
+			float m2 = (m.matrix[0][1] * m.matrix[1][2] - m.matrix[0][2] * m.matrix[1][1]) * invDet;
+
+			float m3 = (m.matrix[1][2] * m.matrix[2][0] - m.matrix[1][0] * m.matrix[2][2]) * invDet;
+			float m4 = (m.matrix[0][0] * m.matrix[2][2] - m.matrix[0][2] * m.matrix[2][0]) * invDet;
+			float m5 = (m.matrix[0][2] * m.matrix[1][0] - m.matrix[0][0] * m.matrix[1][2]) * invDet;
+
+			float m6 = (m.matrix[1][0] * m.matrix[2][1] - m.matrix[1][1] * m.matrix[2][0]) * invDet;
+			float m7 = (m.matrix[0][1] * m.matrix[2][0] - m.matrix[0][0] * m.matrix[2][1]) * invDet;
+			float m8 = (m.matrix[0][0] * m.matrix[1][1] - m.matrix[0][1] * m.matrix[1][0]) * invDet;
+
+			result.matrix[0][0] = m0;
+			result.matrix[0][1] = m1;
+			result.matrix[0][2] = m2;
+			result.matrix[1][0] = m3;
+			result.matrix[1][1] = m4;
+			result.matrix[1][2] = m5;
+			result.matrix[2][0] = m6;
+			result.matrix[2][1] = m7;
+			result.matrix[2][2] = m8;
 
 		}
 		
-		if (m.cols == 4) {
+		else if (m.cols == 4) {
+			std::cout << "wyznacznik macierzy 4x4" << invDet << "\n";
 
-			float m0 = (m.matrix[1][0] * m.matrix[2][0] - m.matrix[1][3] * m.matrix[1][1]) * invDet;
-			float m3 = (m.matrix[0][3] * m.matrix[2][0] - m.matrix[1][2] * m.matrix[1][1]) * invDet;
-			float m6 = (m.matrix[0][3] * m.matrix[1][3] - m.matrix[1][2] * m.matrix[1][0]) * invDet;
-			float m1 = (m.matrix[0][1] * m.matrix[2][0] - m.matrix[1][3] * m.matrix[0][2]) * invDet;
-			float m4 = (m.matrix[0][0] * m.matrix[2][0] - t6) * invDet;
-			float m7 = (t2 - t4) * invDet;
-			float m2 = (m.matrix[0][1] * m.matrix[1][1] - m.matrix[1][0] * m.matrix[0][2]) * invDet;
-			float m5 = (m.matrix[0][0] * m.matrix[1][1] - t5) * invDet;
-			float m8 = (t1 - t3) * invDet;
+		}
+		else {
+			std::cout << "Nie potrafimy wyznaczyc macierzy odwrotnej dla macierzy wiekszej niz 4x4 :(" << std::endl;
 
-
-
-			matrix[0][0] = m0;
-			matrix[0][3] = m3;
-			matrix[1][2] = m6;
-
-			matrix[0][1] = m1;
-			matrix[1][0] = m4;
-			matrix[1][3] = m7;
-
-			matrix[0][2] = m2;
-			matrix[1][1] = m5;
-			matrix[2][0] = m8;
 		}
 	}
 }
+
+Matrix Matrix::getInversionOfMatrix2x2() const
+{
+	Matrix result(2,2);
+	result.setInverseOfMatrix(*this);
+	return result;
+}
+
+
+
 
 void Matrix::Print() {
 	for (int i = 0; i < rows; i++) {
