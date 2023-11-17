@@ -58,7 +58,7 @@ int main() {
 	std::cout << "transpose test:" << std::endl;
 	zz.Print();
 	std::cout << std::endl;
-	zz.setMatrixAsTranspose(zz);
+	zz.Transpose();
 	zz.Print();
 	std::cout << std::endl;
 
@@ -84,10 +84,11 @@ int main() {
 	std::cout << "\n";
 
 	Matrix zz2(3, 3);
-	zz2.getInverseOfMatrix(zz);
-	zz2.Multiply(zz);
-	std::cout << "if all are ones, then it's ok" << std::endl;
-	zz2.Print();
+	Matrix zz3(3, 3);
+	zz2 = Matrix::getInverseOfMatrix(zz);
+	zz3 = zz.Multiply(zz2);
+	std::cout << "if it's an identity matrix its ok" << std::endl;
+	zz3.Print();
 	std::cout << std::endl;
 
 

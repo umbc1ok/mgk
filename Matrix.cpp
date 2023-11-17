@@ -131,20 +131,20 @@ float Matrix::Determinant()
 	
 }
 
-void Matrix::setMatrixAsTranspose(Matrix & m) {
-	Matrix result(m.cols, m.rows);
+void Matrix::Transpose() {
+	Matrix result(cols, rows);
 	result.Multiply(0);
-		for (int i = 0; i < m.rows; i++) {
-			for (int j = 0; j < m.cols; j++) {
-				result.matrix[i][j] = m.matrix[j][i];
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				result.matrix[i][j] = matrix[j][i];
 			}
 		}
 		this->matrix = result.matrix;
-	}
+}
 
 Matrix Matrix::getTransposeOfMatrix(Matrix m)  {
-	Matrix result;
-	result.setMatrixAsTranspose(m);
+	Matrix result = m;
+	result.Transpose();
 	return result;
 }
 
@@ -220,7 +220,7 @@ Matrix Matrix::getInverseOfMatrix(Matrix m)
 					result.matrix[i][j] = cofactor;
 				}
 			}
-			result.setMatrixAsTranspose(result);
+			result.Transpose();
 			result.Multiply(invDet);
 
 			return result;

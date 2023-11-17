@@ -21,7 +21,7 @@ public:
 
 	float Determinant();
 
-	void setMatrixAsTranspose(Matrix& m);
+	void Transpose();
 	static Matrix getTransposeOfMatrix(Matrix m) ;
 	static Matrix getInverseOfMatrix( Matrix m) ;
 
