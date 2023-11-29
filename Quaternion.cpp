@@ -94,9 +94,18 @@ bool Quaternion::operator==(const Quaternion& q) const {
 	return (x == q.x && y == q.y && z == q.z && w == q.w);
 }
 
-Vector Quaternion::rotate(const Vector& point, const Vector& axis, float angle) const {
+Vector Quaternion::rotate(const Vector& point, Vector& axis, float angle) const {
 	Quaternion result;
 	float q_scalar = cos(angle / 2);
-	//Vector q_vector = axis * sin(angle / 2);
-	return Vector();
+	float factor = axis.length() * sin(angle / 2);
+	Vector q_vector = axis * factor;
+
+	Quaternion q(q_vector.x, q_vector.y, q_vector.z, q_scalar);
+
+	Quaternion qminus(-q_vector.x, -q_vector.y, -q_vector.z, q_scalar );
+
+	Quaternion pointQuat = Quaternion(point.x, point.y, point.z, 0);
+	result = q * pointQuat * qminus;
+	
+	return Vector(result.x,result.y,result.z);
 }

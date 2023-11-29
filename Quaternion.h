@@ -23,7 +23,7 @@ public:
 	bool operator==(const Quaternion& q) const;
 
 	//angle in radians
-	Vector rotate(const Vector& point, const Vector& axis, float angle) const;
+	Vector rotate(const Vector& point,  Vector& axis, float angle) const;
 
 	void Print();
 };
