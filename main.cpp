@@ -44,7 +44,7 @@ int main() {
 	Vector v2 = q1.rotate(v1, axis, angle);
 	v2.Print();
 
-	std::cout << "No commutativity of multiplication q1 and q2 \n";
+	std::cout << "\n No commutativity of multiplication q1 and q2 \n";
 	Quaternion result1 = q1 * q2;
 	Quaternion result2 = q2 * q1 ;
 
