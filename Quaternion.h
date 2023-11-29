@@ -24,6 +24,4 @@ public:
 
 	//angle in radians
 	Vector rotate(const Vector& point,  Vector& axis, float angle) const;
-
-	void Print();
 };
