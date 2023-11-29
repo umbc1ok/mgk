@@ -33,6 +33,10 @@ public:
 	Vector cross(Vector v);
 
 	bool operator==(Vector other);
+	Vector operator+(Vector other);
+	Vector operator-(Vector other);
+	Vector operator*(float a);
+	Vector operator/(float a);
 
 	~Vector();
 };

@@ -89,6 +89,30 @@ bool Vector::operator==(Vector other)
 	return this->x == other.x && this->y == other.y && this->z == other.z;
 }
 
+Vector Vector::operator+(Vector v)
+{
+	Vector result = Vector(this->x + v.x, this->y + v.y, this->z + v.z);
+	return result;
+}
+
+Vector Vector::operator-(Vector other)
+{
+	Vector result = Vector(this->x - other.x, this->y - other.y, this->z - other.z);
+	return result;
+}
+
+Vector Vector::operator*(float a)
+{
+	Vector result = Vector(this->x * a, this->y * a, this->z * a);
+	return result;
+}
+
+Vector Vector::operator/(float a)
+{
+	Vector result = Vector(this->x / a, this->y / a, this->z / a);
+	return result;
+}
+
 Vector::~Vector()
 {
 }
