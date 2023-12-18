@@ -113,6 +113,11 @@ Vector Vector::operator/(float a)
 	return result;
 }
 
+void Vector::Print() const
+{
+		std::cout << "x: " << x << " y: " << y << " z: " << z << std::endl;
+}
+
 Vector::~Vector()
 {
 }

@@ -38,5 +38,7 @@ public:
 	Vector operator*(float a);
 	Vector operator/(float a);
 
+	void Print() const;
+
 	~Vector();
 };
