@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include "Matrix.h"
+#include <sstream>
 
 Vector::Vector(float x, float y, float z) : x(x), y(y), z(z) {};
 
@@ -117,6 +118,27 @@ void Vector::Print() const
 {
 		std::cout << "x: " << x << " y: " << y << " z: " << z << std::endl;
 }
+
+float Vector::magnitude() const
+{
+	return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+}
+float Vector::angle(Vector v) 
+{
+	return acos(dot(v) / (magnitude() * v.magnitude()));
+}
+
+std::string Vector::ToString()
+{
+	if (x == NAN || y == NAN || z == NAN)
+		return "invalid vector";
+
+	std::stringstream s;
+	s << "[" << x << ", " << y << ", " << z << "]";
+	return s.str();
+}
+
+
 
 Vector::~Vector()
 {

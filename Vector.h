@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 class Vector
 {
 
@@ -39,6 +39,12 @@ public:
 	Vector operator/(float a);
 
 	void Print() const;
+
+	float magnitude() const;
+
+	float angle(Vector v);
+
+	std::string ToString();
 
 	~Vector();
 };

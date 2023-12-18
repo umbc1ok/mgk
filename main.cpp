@@ -4,60 +4,77 @@
 #include "Matrix.h"
 #include "CommonMatricies.h"
 #include "Quaternion.h"
+#include "Line.h"
+#include "Intersections.h"
 
 
 
 int main() {
 
-	Quaternion q1(1, 2, 3, 4);
-	Quaternion q2(5, 6, 7, 8);
 
-	std::cout << "Q1 \n";
-	q1.Print();
-	std::cout << "Q2 \n";
-	q2.Print();	
-	
-	std::cout << "Add \n";
-	Quaternion q3 = q1 + q2;
-	q3.Print();
+	// ZAD1 + ZAD2
+	{
+		Line l1({ -2, 5, 0 }, { 3, 1, 5 });
+		Line l2({ -2, 4, 0 }, { 1, -5, 3 });
 
-	std::cout << "\n Subtract \n";
-	Quaternion q4 = q1 - q2;
-	q4.Print();
+		Vector v = intersection(l1, l2);
+		std::cout << v.ToString() << std::endl;
 
-	std::cout << "\n Multiply \n";
-	Quaternion q5 = q1 * q2;
-	q5.Print();
+		std::cout << angleBetween(l1, l2) * 180.0f / M_PI << std::endl;
+	}
 
-	std::cout << "\n Multiply by scalar \n";
-	Quaternion q6 = q1 * 2;
-	q6.Print();
+	//ZAD3 + ZAD4
+	{
+		Line l1({ -2, 2, -1 }, { 3, -1, 2 });
+		Plane p(2, 3, 3, -8);
 
-	std::cout << "\n Divide \n";
-	Quaternion q7 = q1 / q2;
-	q7.Print();
+		Vector v = intersection(l1, p);
 
-	std::cout << "\n Rotate \n punkt [-1,-1,-1]obroc o 270° wokoc osi x \n";
-	Vector v1(-1, -1, -1);
-	Vector axis(1, 0, 0);
-	float angle = 270 * M_PI/180;
-	Vector v2 = q1.rotate(v1, axis, angle);
-	v2.Print();
+		std::cout << v.ToString() << std::endl;
 
-	std::cout << "\n No commutativity of multiplication q1 and q2 \n";
-	Quaternion result1 = q1 * q2;
-	Quaternion result2 = q2 * q1 ;
-
-	std::cout << "\n q1 * q2: \n";
-	result1.Print();
-	std::cout << "\n q2 * q1: \n";
-	result2.Print();
-	std::cout << "Are (q1 * q2) and (q2 * q1) equal? " << (result1 == result2) << std::endl;
+		std::cout << angleBetween(l1, p) << std::endl;
+	}
 
 
+	// ZAD 5 + 6
+	{
+		Plane p1(2, -1, 1, -8);
+		Plane p2(4, 3, 1, 14);
+
+		Line result = intersection(p1, p2);
+
+		std::cout << "P: " << result.p.ToString() << ", V: " << result.v.ToString() << std::endl;
+
+		std::cout << angleBetween(p1, p2) * 180 / M_PI << std::endl;
+	}
+
+	// ZAD 7
+	{
+		LineSegment l1({ 5,5,4 }, { 10,10,6 });
+		LineSegment l2({ 5,5,5 }, { 10, 10, 3 });
+
+		auto result = intersection(l1, l2);
+
+		if (result.ToString() == Vector(NAN,NAN,NAN).ToString())
+			std::cout << "No intersections between the two line segments." << std::endl;
+		else
+			std::cout << result.ToString() << std::endl;
+	}
 
 
+	//ZAD OSTATNIE
+	{
+		Sphere s({ 0.0f, 0.0f, 0.0f }, sqrt(26.0f));
+		Line l({ 3, -1, 2 }, { 2, 4, -6 });
 
-	std::cout << "\n";
+		auto result = intersection(s, l);
+
+		if (result.first.ToString() == Vector(NAN, NAN, NAN).ToString())
+			std::cout << "No intersections between the sphere and the line." << std::endl;
+		else
+			std::cout << "Sphere and line, Intersections at: " << result.first.ToString() << ", " << result.second.ToString() << std::endl;
+	}
+
+
 }
 
