@@ -14,6 +14,7 @@ int main() {
 
 	// ZAD1 + ZAD2
 	{
+		std::cout << "ZAD1 + ZAD2" << std::endl;
 		Line l1({ -2, 5, 0 }, { 3, 1, 5 });
 		Line l2({ -2, 4, 0 }, { 1, -5, 3 });
 
@@ -25,6 +26,7 @@ int main() {
 
 	//ZAD3 + ZAD4
 	{
+		std::cout << "ZAD3 + ZAD4" << std::endl;
 		Line l1({ -2, 2, -1 }, { 3, -1, 2 });
 		Plane p(2, 3, 3, -8);
 
@@ -38,6 +40,7 @@ int main() {
 
 	// ZAD 5 + 6
 	{
+		std::cout << "ZAD5 + ZAD6" << std::endl;
 		Plane p1(2, -1, 1, -8);
 		Plane p2(4, 3, 1, 14);
 
@@ -50,8 +53,9 @@ int main() {
 
 	// ZAD 7
 	{
-		LineSegment l1({ 5,5,4 }, { 10,10,6 });
-		LineSegment l2({ 5,5,5 }, { 10, 10, 3 });
+		std::cout << "ZAD7" << std::endl;
+		LineSegment l1({ 5,5,4 }, { 5,5,2 });
+		LineSegment l2({ 5,5,5 }, { 5,5,-2 });
 
 		auto result = intersection(l1, l2);
 
@@ -64,6 +68,7 @@ int main() {
 
 	//ZAD OSTATNIE
 	{
+		std::cout << "ZAD OSTATNIE" << std::endl;
 		Sphere s({ 0.0f, 0.0f, 0.0f }, sqrt(26.0f));
 		Line l({ 3, -1, 2 }, { 2, 4, -6 });
 
