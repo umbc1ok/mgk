@@ -71,7 +71,8 @@ void Matrix::Multiply(float factor) {
 			this->matrix[i][j] *= factor;
 		}
 	}
-};
+}
+
 Matrix Matrix::Multiply(Matrix& other) {
 	if (this->cols == other.rows)
 	{
@@ -294,6 +295,27 @@ float Matrix::cofactorAt(unsigned int row, unsigned int col) const
 	}
 
 	return minor.Determinant() * ((row + col) % 2 == 0 ? 1.0 : -1.0);
+}
+
+Matrix Matrix::extendMatrix(const Matrix& other)
+{
+	Matrix extended(4, 4);
+
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			extended.matrix[i][j] = matrix[i][j];
+		}
+	}
+
+	for (int i = 0; i < 3; ++i)
+	{
+		extended.matrix[i][3] = 0;
+		extended.matrix[3][i] = 0;
+	}
+
+	return extended;
 }
 
 

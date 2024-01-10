@@ -1,4 +1,5 @@
 #pragma once
+#include "Vector.h"
 class Matrix
 {
 public:
@@ -26,6 +27,8 @@ public:
 	static Matrix getInverseOfMatrix( Matrix m) ;
 
 	float cofactorAt(unsigned int row, unsigned int col) const;
+
+	Matrix extendMatrix(const Matrix& other);
 
 	
 	void Print();
