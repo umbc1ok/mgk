@@ -151,6 +151,7 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Intersections.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="LineSegment.h" />
