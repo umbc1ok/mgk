@@ -20,6 +20,8 @@ public:
 
 	Matrix Multiply(Matrix& other);
 
+	Vector operator*(Vector& other);
+
 	float Determinant();
 
 	void Transpose();

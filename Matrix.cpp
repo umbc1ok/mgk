@@ -91,6 +91,12 @@ Matrix Matrix::Multiply(Matrix& other) {
 		return Matrix();
 	}
 }
+Vector Matrix::operator*(Vector& other)
+{
+	return Vector();
+}
+
+
 float Matrix::Determinant()
 {
 	if (this->cols == this->rows) {

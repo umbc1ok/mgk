@@ -102,11 +102,29 @@ Vector Vector::operator-(Vector other)
 	return result;
 }
 
+Vector& Vector::operator-(const Vector& other) const
+{
+	Vector result = Vector(this->x - other.x, this->y - other.y, this->z - other.z);
+	return result;
+}
+
 Vector Vector::operator*(float a)
 {
 	Vector result = Vector(this->x * a, this->y * a, this->z * a);
 	return result;
 }
+
+Vector Vector::operator*(const float a) const
+{
+	Vector result = Vector(this->x * a, this->y * a, this->z * a);
+	return result;
+}
+
+Vector multiplyMatrixVector(const Matrix& matrix, const Vector& vector)
+{
+	
+}
+
 
 Vector Vector::operator/(float a)
 {
@@ -136,6 +154,11 @@ std::string Vector::ToString()
 	std::stringstream s;
 	s << "[" << x << ", " << y << ", " << z << "]";
 	return s.str();
+}
+
+Vector Vector::invalid()
+{
+	return { NAN, NAN, NAN };
 }
 
 

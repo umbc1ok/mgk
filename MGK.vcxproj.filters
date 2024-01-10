@@ -77,7 +77,7 @@
     <ClInclude Include="Sphere.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="RayCasting.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">

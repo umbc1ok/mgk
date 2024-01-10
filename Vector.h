@@ -35,8 +35,11 @@ public:
 	bool operator==(Vector other);
 	Vector operator+(Vector other);
 	Vector operator-(Vector other);
+	Vector& operator-(const Vector& other) const;
 	Vector operator*(float a);
+	Vector operator*(const float a) const;
 	Vector operator/(float a);
+	Vector multiplyMatrixVector(const Matrix& matrix, const Vector& vector);
 
 	void Print() const;
 
@@ -45,6 +48,8 @@ public:
 	float angle(Vector v);
 
 	std::string ToString();
+
+	static Vector invalid();
 
 	~Vector();
 };
