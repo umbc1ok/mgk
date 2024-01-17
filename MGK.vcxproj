@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="CommonMatricies.cpp" />
     <ClCompile Include="CommonMatricies.h" />
-    <ClCompile Include="Intersections.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />

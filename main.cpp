@@ -12,37 +12,41 @@
 
 
 int main() {
-	clearBuffer();
+	Cube cube(5);
+	RayCasting camera;
 
-	Cube cube(Vector(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 1.0f);
-	Renderer::cubes.emplace_back(cube);
+	float fifteen = M_PI / 12;
 
-	float flow = -10000.0f;
-	float rotation = 1.0f;
-	bool once = true;
+	float roll = 0, pitch = 0, yaw = 0, zoom = 0;
+	float rollR = 0, pitchR = 0, yawR = 0;
 
-    while (true)
-    {
-        flow += 0.01f;
-        //rotation += 0.0001f;
-        for (auto& sphere : Renderer::spheres)
-        {
-            sphere.radius = sin(flow);
-        }
+	for (;;)
+	{
+		system("CLS");
+		std::cout << camera.rayCasting(cube);
+		std::cout << std::endl << "rotX: " << roll << " rotY: " << pitch << " rotZ: " << yaw << std::endl;
 
-        //if (once)
-        {
-            for (auto& cube : Renderer::cubes)
-            {
-                cube.rotate(rotation, Vector(0.0f, 1.0f, 0.0f));
-                //cube.rotate(rotation, Vector(1.0f, 0.0f, 0.0f));
-                //cube.rotate(rotation, Vector(0.0f, 0.0f, 1.0f));
-                //cube.center = Vector(sin(flow), sin(flow), 0.0f);
-                once = false;
-            }
-        }
+		std::cout << std::endl << std::endl;
 
-        render();
-    }
+		std::cout << " |Z" << std::endl;
+		std::cout << " |   /Y" << std::endl;
+		std::cout << " |  / " << std::endl;
+		std::cout << " | / " << std::endl;
+		std::cout << " |/______ X   " << std::endl << std::endl;
+
+		std::cout << "Podaj obrot wokol X w stopniach: ";
+		std::cin >> roll;
+		std::cout << "Podaj obrot wokol Y w stopniach: ";
+		std::cin >> pitch;
+		std::cout << "Podaj obrot wokol Z w stopniach: ";
+		std::cin >> yaw;
+		std::cout << "Podaj zoom:";
+		std::cin >> zoom;
+
+		rollR = M_PI * roll / 180;
+		pitchR = M_PI * pitch / 180;
+		yawR = M_PI * -yaw / 180;
+		camera.changeTransform(rollR, pitchR, yawR, zoom);
+	}
 }
 

@@ -18,6 +18,17 @@ Quaternion::Quaternion(float x, float y, float z, float w) {
 void Quaternion::Print() const {
 	std::cout << "x: " << x << " y: " << y << " z: " << z << " w: " << w << std::endl;
 }	
+
+Quaternion Quaternion::conjugate()
+{
+	Quaternion q;
+	q.x = x;
+	q.y = -y;
+	q.z = -z;
+	q.w = -w;
+	return q;
+}
+
 Quaternion Quaternion::operator+(Quaternion& other) {
 	Quaternion result;
 	result.x = x + other.x;

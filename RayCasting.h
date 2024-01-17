@@ -13,158 +13,104 @@
 #include "Cube.h"
 
 constexpr int NUM_PIXELS = 60;
-
-namespace Renderer
+class RayCasting
 {
-    std::vector<Plane> planes;
-    std::vector<Sphere> spheres;
-    std::vector<Cube> cubes;
-}
+	const float POINTS_CAM_DIST = 5;
+	const float POINTS_WIDTH = 10;
+	const Vector START_POS = Vector(0, -15, 0);
 
-#define M_PI 3.14159265f
-Vector cameraPos(0, 0, 1);
+public:
+	Vector position;
+	RayCasting()
+	{
+		this->position = START_POS;
 
-    float pixelSize = 0.25f;
-    char pixels[NUM_PIXELS][NUM_PIXELS] = {};
+		for (int i = 0; i < 60; i++) {
+			for (int j = 0; j < 60; j++) {
+				viewPoints[i][j].x = (j - 30) * POINTS_WIDTH / 60;
+				viewPoints[i][j].y = START_POS.y + POINTS_CAM_DIST;
+				viewPoints[i][j].z = (i - 30) * POINTS_WIDTH / 60;
+			}
+		}
+	}
+	Vector rotatePoint(Vector point, float roll, float pitch, float yaw) {
+		Quaternion p(point.x, point.y, point.z, 0);
+		float u = -roll;
+		float v = -pitch;
+		float w = yaw;
+		Quaternion q;
+		q.w = cos(u / 2) * cos(v / 2) * cos(w / 2) + sin(u / 2) * sin(v / 2) * sin(w / 2);
+		q.x = sin(u / 2) * cos(v / 2) * cos(w / 2) - cos(u / 2) * sin(v / 2) * sin(w / 2);
+		q.y = cos(u / 2) * sin(v / 2) * cos(w / 2) + sin(u / 2) * cos(v / 2) * sin(w / 2);
+		q.z = cos(u / 2) * cos(v / 2) * sin(w / 2) - sin(u / 2) * sin(v / 2) * cos(w / 2);
+		Quaternion qinverted = q.conjugate(); // dodane conjugate
+		Quaternion pnew = qinverted * p * q;
+		Vector result;
+		result.x = pnew.x;
+		result.y = pnew.y;
+		result.z = pnew.z;
+		return result;
+	}
+	void rotate(float roll, float pitch, float yaw) {
 
-    static void clearBuffer()
-    {
-        for (int i = 0; i < NUM_PIXELS; i++)
-        {
-            for (int j = 0; j < NUM_PIXELS; j++)
-            {
-                pixels[i][j] = '.';
-            }
-        }
-    }
+			position = rotatePoint(position, roll, pitch, yaw);
 
-    static void checkForIntersections()
-    {
-        // Check for plane intersections between camera and a line from camera to pixel angle.
-    // Screen is made up of 60x60 pixels, each pixel is 0.25 units wide.
-    // For each pixel, check if it intersects with any planes.
-    // If it does, set the pixel to "0" otherwise set it to "."
-        for (int i = 0; i < NUM_PIXELS; i++)
-        {
-            for (int j = 0; j < NUM_PIXELS; j++)
-            {
-                Vector pixelPos = Vector(i * pixelSize - (NUM_PIXELS / 2 * pixelSize), j * pixelSize - (NUM_PIXELS / 2 * pixelSize), 0);
-                Vector direction = (pixelPos - cameraPos).normalize();
-                const Line line = Line(cameraPos, direction);
+			for (int i = 0; i < 60; i++) {
+				for (int j = 0; j < 60; j++) {
+					viewPoints[i][j] = rotatePoint(viewPoints[i][j], roll, pitch, yaw);
+				}
+			}
+	}
 
-                bool intersects = false;
-                for (const Plane plane : Renderer::planes)
-                {
-                    Vector intersectionPoint = intersection(line, plane);
-                    std::cout << intersectionPoint.ToString() << "\n";
-                    if (!(intersectionPoint == Vector::invalid()))
-                    {
-                        pixels[i][j] = '0';
-                        intersects = true;
-                        break;
-                    }
-                }
+	void zoom(float distance) {
+		Vector v(0, 0, 0);
+		v = v - position; // zmiana
+		float length = v.length();
+		v.div(length);
+		v.mul(distance);
+		for (int i = 0; i < 60; i++) {
+			for (int j = 0; j < 60; j++) {
+				viewPoints[i][j] = viewPoints[i][j] + v; // zmiana
+			}
+		}
+	}
 
-                if (intersects)
-                    continue;
 
-                for (const Sphere sphere : Renderer::spheres)
-                {
-                    std::pair<Vector, Vector> intersectionPoints = intersection(sphere, line);
+	Vector viewPoints[60][60];
+	std::string rayCasting(Cube cube) {
+		std::string result = "";
+		for (int i = 0; i < 60; i++) {
+			for (int j = 0; j < 60; j++) {
+				Vector v = viewPoints[i][j];
+				v = v - position; // zmiana
+				Line line(viewPoints[i][j], v);
+				if (cube.checkIntersection(line))
+				{
+					result += '0';
+				}
+				else {
+					result += '.';
+				}
+			}
+			result += "\n";
+		}
+		return result;
+	}
+	void reset() {
+		this->position = START_POS;
 
-                    if (!(intersectionPoints.first == Vector::invalid()))
-                    {
-                        pixels[i][j] = '0';
-                        intersects = true;
-                        break;
-                    }
-
-                    if (!(intersectionPoints.second == Vector::invalid()))
-                    {
-                        pixels[i][j] = '0';
-                        intersects = true;
-                        break;
-                    }
-                }
-
-                if (intersects)
-                    continue;
-
-                for (auto const& cube : Renderer::cubes)
-                {
-                    if (cube.intersects(line))
-                    {
-                        pixels[i][j] = '0';
-                        intersects = true;
-                        break;
-                    }
-                }
-
-                if (!intersects)
-                    pixels[i][j] = '.';
-            }
-        }
-    }
-
-    void cls(HANDLE hConsole);
-
-    static void render()
-    {
-        checkForIntersections();
-
-        std::stringstream s;
-        for (int i = 0; i < NUM_PIXELS; i++)
-        {
-            for (int j = 0; j < NUM_PIXELS; j++)
-            {
-                s << pixels[i][j];
-            }
-            s << "\n";
-        }
-
-        std::string screen = s.str();
-        HANDLE stdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-        cls(stdOut);
-        if (stdOut != NULL && stdOut != INVALID_HANDLE_VALUE)
-        {
-            DWORD written = 0;
-            WriteConsoleA(stdOut, screen.c_str(), screen.length(), &written, NULL);
-        }
-    }
-
-    void cls(HANDLE hConsole)
-    {
-        CONSOLE_SCREEN_BUFFER_INFO csbi;
-        SMALL_RECT scrollRect;
-        COORD scrollTarget;
-        CHAR_INFO fill;
-
-        // Get the number of character cells in the current buffer.
-        if (!GetConsoleScreenBufferInfo(hConsole, &csbi))
-        {
-            return;
-        }
-
-        // Scroll the rectangle of the entire buffer.
-        scrollRect.Left = 0;
-        scrollRect.Top = 0;
-        scrollRect.Right = csbi.dwSize.X;
-        scrollRect.Bottom = csbi.dwSize.Y;
-
-        // Scroll it upwards off the top of the buffer with a magnitude of the entire height.
-        scrollTarget.X = 0;
-        scrollTarget.Y = (SHORT)(0 - csbi.dwSize.Y);
-
-        // Fill with empty spaces with the buffer's default text attribute.
-        fill.Char.UnicodeChar = TEXT(' ');
-        fill.Attributes = csbi.wAttributes;
-
-        // Do the scroll
-        ScrollConsoleScreenBuffer(hConsole, &scrollRect, NULL, scrollTarget, &fill);
-
-        // Move the cursor to the top left corner too.
-        csbi.dwCursorPosition.X = 0;
-        csbi.dwCursorPosition.Y = 0;
-
-        SetConsoleCursorPosition(hConsole, csbi.dwCursorPosition);
-    }
+		for (int i = 0; i < 60; i++) {
+			for (int j = 0; j < 60; j++) {
+				viewPoints[i][j].x = (j - 30) * POINTS_WIDTH / 60;
+				viewPoints[i][j].y = START_POS.y + POINTS_CAM_DIST;
+				viewPoints[i][j].z = (i - 30) * POINTS_WIDTH / 60;
+			}
+		}
+	}
+	void changeTransform(float roll, float pitch, float yaw, float z) {
+		reset();
+		rotate(roll, pitch, yaw);
+		zoom(z);
+	}
+	
+};
