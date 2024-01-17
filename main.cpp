@@ -34,9 +34,6 @@ int main() {
 		std::cout << " | / " << std::endl;
 		std::cout << " |/______ X   " << std::endl << std::endl;
 
-		roll++;
-		pitch++;
-		yaw++;
 
 		if (GetKeyState('W') & 0x8000) {
 			zoom += 0.1;
@@ -44,6 +41,26 @@ int main() {
 		if (GetKeyState('S') & 0x8000) {
 			zoom -= 0.1;
 		}
+		if (GetKeyState('A') & 0x8000) {
+			roll -= 0.1;
+		}
+		if (GetKeyState('D') & 0x8000) {
+			roll += 0.1;
+		}
+		if (GetKeyState('Q') & 0x8000) {
+			pitch -= 0.1;
+		}
+		if (GetKeyState('E') & 0x8000) {
+			pitch += 0.1;
+		}
+		if (GetKeyState('Z') & 0x8000) {
+			yaw -= 0.1;
+		}
+		if (GetKeyState('C') & 0x8000) {
+			yaw += 0.1;
+		}
+
+
 
 		rollR = M_PI * roll / 180;
 		pitchR = M_PI * pitch / 180;
