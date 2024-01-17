@@ -52,7 +52,7 @@ Matrix RotationZ(const double angle) {
 	matrix.matrix[1][1] = matrix.matrix[0][0];
 	return matrix;
 }
-Matrix ScaleXYZ(float x, float y, float z)
+inline Matrix ScaleXYZ(float x, float y, float z)
 {
 	Matrix matrix = GetIdentity(4);
 	matrix.matrix[0][0] = x;
