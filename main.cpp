@@ -34,14 +34,16 @@ int main() {
 		std::cout << " | / " << std::endl;
 		std::cout << " |/______ X   " << std::endl << std::endl;
 
-		std::cout << "Podaj obrot wokol X w stopniach: ";
-		std::cin >> roll;
-		std::cout << "Podaj obrot wokol Y w stopniach: ";
-		std::cin >> pitch;
-		std::cout << "Podaj obrot wokol Z w stopniach: ";
-		std::cin >> yaw;
-		std::cout << "Podaj zoom:";
-		std::cin >> zoom;
+		roll++;
+		pitch++;
+		yaw++;
+
+		if (GetKeyState('W') & 0x8000) {
+			zoom += 0.1;
+		}
+		if (GetKeyState('S') & 0x8000) {
+			zoom -= 0.1;
+		}
 
 		rollR = M_PI * roll / 180;
 		pitchR = M_PI * pitch / 180;
