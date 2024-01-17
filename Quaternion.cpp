@@ -22,10 +22,10 @@ void Quaternion::Print() const {
 Quaternion Quaternion::conjugate()
 {
 	Quaternion q;
-	q.x = x;
+	q.w = w;
+	q.x = -x;
 	q.y = -y;
 	q.z = -z;
-	q.w = -w;
 	return q;
 }
 
