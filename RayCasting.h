@@ -19,9 +19,10 @@ namespace Renderer
     std::vector<Plane> planes;
     std::vector<Sphere> spheres;
     std::vector<Cube> cubes;
-    Vector cameraPos(0, 0, 1);
+}
 
 #define M_PI 3.14159265f
+Vector cameraPos(0, 0, 1);
 
     float pixelSize = 0.25f;
     char pixels[NUM_PIXELS][NUM_PIXELS] = {};
@@ -39,41 +40,17 @@ namespace Renderer
 
     static void checkForIntersections()
     {
-        float aspectRatio = static_cast<float>(NUM_PIXELS) / static_cast<float>(NUM_PIXELS);
-        float fov = 90.0f;
-        float halfScreenHeight = tan(fov * 0.5f * M_PI / 180.0f);
-        float halfScreenWidth = aspectRatio * halfScreenHeight;
-
-        Vector lookAtPoint = Vector(-0.25f, 0.0f, 0.0f);
-        Vector up = Vector(0.0f, 1.0f, 0.0f);
-        Vector direction = (lookAtPoint - cameraPos).normalize();
-        Vector right = direction.cross(up).normalize();
-        up = right.cross(direction).normalize();
-
         // Check for plane intersections between camera and a line from camera to pixel angle.
-        // Screen is made up of 60x60 pixels, each pixel is 0.25 units wide.
-        // For each pixel, check if it intersects with any planes.
-        // If it does, set the pixel to "0" otherwise set it to "."
+    // Screen is made up of 60x60 pixels, each pixel is 0.25 units wide.
+    // For each pixel, check if it intersects with any planes.
+    // If it does, set the pixel to "0" otherwise set it to "."
         for (int i = 0; i < NUM_PIXELS; i++)
         {
             for (int j = 0; j < NUM_PIXELS; j++)
             {
-                float x = (2.0f * (i + 0.5f) / static_cast<float>(NUM_PIXELS) - 1.0f) * halfScreenWidth;
-                float y = (1.0f - 2.0f * (j + 0.5f) / static_cast<float>(NUM_PIXELS)) * halfScreenHeight;
-
-                Vector pixelPos = cameraPos + direction + right * x + up * y;
-                Vector pixelDirection = (pixelPos - cameraPos).normalize();
-                // Vector direction = (lookAtPoint - cameraPos).normalized();
-                // Vector right = direction.cross(up).normalized();
-                // up = right.cross(direction).normalized();
-
-                // Vector pixelPos = cameraPos + right * (i * pixelSize - (NUM_PIXELS / 2 * pixelSize)) + up * (j * pixelSize - (NUM_PIXELS / 2 * pixelSize));
-                // Vector pixelPos = cameraPos + direction * (i * pixelSize - (NUM_PIXELS / 2 * pixelSize));
-                // Vector pixelPos = cameraPos + direction * (i * pixelSize - (NUM_PIXELS / 2 * pixelSize)) + direction * (j * pixelSize - (NUM_PIXELS / 2 * pixelSize));
-
-                // Vector pixelPos = Vector(i * pixelSize - (NUM_PIXELS / 2 * pixelSize), j * pixelSize - (NUM_PIXELS / 2 * pixelSize), 0);
-                // Vector direction = (pixelPos - cameraPos).normalized();
-                const Line line = Line(cameraPos, pixelDirection);
+                Vector pixelPos = Vector(i * pixelSize - (NUM_PIXELS / 2 * pixelSize), j * pixelSize - (NUM_PIXELS / 2 * pixelSize), 0);
+                Vector direction = (pixelPos - cameraPos).normalize();
+                const Line line = Line(cameraPos, direction);
 
                 bool intersects = false;
                 for (const Plane plane : Renderer::planes)
@@ -91,7 +68,7 @@ namespace Renderer
                 if (intersects)
                     continue;
 
-                /*for (const Sphere sphere : Renderer::spheres)
+                for (const Sphere sphere : Renderer::spheres)
                 {
                     std::pair<Vector, Vector> intersectionPoints = intersection(sphere, line);
 
@@ -111,7 +88,7 @@ namespace Renderer
                 }
 
                 if (intersects)
-                    continue;*/
+                    continue;
 
                 for (auto const& cube : Renderer::cubes)
                 {
@@ -191,5 +168,3 @@ namespace Renderer
 
         SetConsoleCursorPosition(hConsole, csbi.dwCursorPosition);
     }
-
-}

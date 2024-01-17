@@ -36,7 +36,16 @@ Matrix::Matrix(int rows, int cols)
 			matrix[i][j] = 0;
 		}
 	}
-};
+}
+void Matrix::setUp()
+{
+	Matrix result(rows, cols);
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			this->matrix[i][j] = 1;
+		}
+	}
+}
 
 void Matrix::Add(Matrix& other) {
 	if (this->rows == other.rows && this->cols == other.cols)
@@ -91,9 +100,20 @@ Matrix Matrix::Multiply(Matrix& other) {
 		return Matrix();
 	}
 }
-Vector Matrix::operator*(Vector& other)
+Vector Matrix::operator*(Vector& v)
 {
-	return Vector();
+	if (this->cols == 3 && this->rows == 3) {
+		// Przyjmujemy, ¿e wektor jest trójwymiarowy, poniewa¿ mamy macierz 3x3
+		float resultX = matrix[0][0] * v.x + matrix[0][1] * v.y + matrix[0][2] * v.z;
+		float resultY = matrix[1][0] * v.x + matrix[1][1] * v.y + matrix[1][2] * v.z;
+		float resultZ = matrix[2][0] * v.x + matrix[2][1] * v.y + matrix[2][2] * v.z;
+
+		return Vector(resultX, resultY, resultZ);
+	}
+	else {
+		std::cout << "Nie mozna pomnozyc macierzy przez wektor o niewlasciwym wymiarze" << std::endl;
+		return Vector(); // Zwróæ pusty wektor w przypadku b³êdu
+	}
 }
 
 
@@ -285,6 +305,19 @@ Matrix Matrix::getInverseOfMatrix(Matrix m)
 	}
 }
 
+Matrix Matrix::getRotationPart()
+{
+	Matrix result(3, 3);
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; i < 3; ++j)
+		{
+			result.matrix[i][j] = this->matrix[i][j];
+		}
+	}
+	return result;
+}
+
 float Matrix::cofactorAt(unsigned int row, unsigned int col) const
 {
 	Matrix minor(rows - 1, cols - 1);
@@ -311,7 +344,7 @@ Matrix Matrix::extendMatrix(const Matrix& other)
 	{
 		for (int j = 0; j < 3; ++j)
 		{
-			extended.matrix[i][j] = matrix[i][j];
+			extended.matrix[i][j] = other.matrix[i][j];
 		}
 	}
 

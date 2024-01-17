@@ -23,7 +23,7 @@ public:
 
 		Cube(Vector center, float width, float height, float depth) 
 			: center(center), width(width), height(height), depth(depth), transformMatrix(4,4) {
-			transformMatrix = Matrix();
+			transformMatrix.setUp();
 			Vector front = center + Vector(center.x, center.y, center.z + depth / 2);
 			Vector back = center + Vector(center.x, center.y, center.z - depth / 2);
 			Vector left = center + Vector(center.x - width / 2, center.y, center.z);
@@ -46,17 +46,18 @@ public:
 			const float halfDepth = depth / 2.0f;
 
 			// Transform the line into the cube's local coordinate system
-			const Matrix inverseTransform = Matrix::getInverseOfMatrix(transformMatrix);
-			Line localLine = Line(inverseTransform * line.p, inverseTransform.getRotationPart() * line.v.normalize());
+			Matrix inverseTransform = Matrix::getInverseOfMatrix(transformMatrix);
+			Vector lineNormalized = line.v.normalize();
+			Line localLine = Line(inverseTransform * line.p, inverseTransform.getRotationPart() * lineNormalized);
 
 			constexpr float epsilon = 0.00005f;
 
 			for (auto const& plane : planes)
 			{
-				const Vector normal = plane.normal;
-				const Vector Q = plane.p;
-				const Vector P = localLine.p;
-				const Vector V = localLine.v;
+				Vector normal = plane.normal;
+				Vector Q = plane.p;
+				Vector P = localLine.p;
+				Vector V = localLine.v;
 
 				const float t = ((Q - P).dot(normal)) / (V.dot(normal));
 
@@ -100,7 +101,7 @@ public:
 				return;
 			}
 
-			Matrix extendedRotationMatrix;
+			Matrix extendedRotationMatrix = Matrix(4, 4);
 			extendedRotationMatrix.extendMatrix(rotationMatrix);
 			transformMatrix = transformMatrix.Multiply(extendedRotationMatrix);
 
@@ -108,9 +109,9 @@ public:
 
 			for (auto& plane : planes)
 			{
-				plane.p = extendedRotationMatrix * ((plane.p - center) + center);
-				Matrix temp = Matrix::getTransposeOfMatrix(Matrix::getInverseOfMatrix(extendedRotationMatrix));
-				plane.normal = (temp * plane.normal).normalize();
+				Vector temp = (plane.p - center) + center;
+				plane.p = extendedRotationMatrix * temp;
+				plane.normal = (extendedRotationMatrix * plane.normal).normalize();
 			}
 
 		}

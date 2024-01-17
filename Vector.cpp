@@ -120,9 +120,10 @@ Vector Vector::operator*(const float a) const
 	return result;
 }
 
-Vector multiplyMatrixVector(const Matrix& matrix, const Vector& vector)
+Vector Vector::operator*(Vector& other)
 {
-	
+	Vector result = Vector(this->x * other.x, this->y * other.y, this->z * other.z);
+	return result;
 }
 
 

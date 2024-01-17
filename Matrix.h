@@ -9,6 +9,7 @@ public:
 
 	Matrix();
 	Matrix(int rows, int cols);
+	void setUp();
 
 	void Print() const;
 
@@ -27,6 +28,7 @@ public:
 	void Transpose();
 	static Matrix getTransposeOfMatrix(Matrix m) ;
 	static Matrix getInverseOfMatrix( Matrix m) ;
+	Matrix getRotationPart();
 
 	float cofactorAt(unsigned int row, unsigned int col) const;
 
