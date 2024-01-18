@@ -43,7 +43,7 @@ public:
 		q.x = sin(u / 2) * cos(v / 2) * cos(w / 2) - cos(u / 2) * sin(v / 2) * sin(w / 2);
 		q.y = cos(u / 2) * sin(v / 2) * cos(w / 2) + sin(u / 2) * cos(v / 2) * sin(w / 2);
 		q.z = cos(u / 2) * cos(v / 2) * sin(w / 2) - sin(u / 2) * sin(v / 2) * cos(w / 2);
-		Quaternion qinverted = q.conjugate(); // dodane conjugate
+		Quaternion qinverted = q.conjugate(); 
 		Quaternion pnew = qinverted * p * q;
 		Vector result;
 		result.x = pnew.x;
@@ -64,13 +64,13 @@ public:
 
 	void zoom(float distance) {
 		Vector v(0, 0, 0);
-		v = v - position; // zmiana
+		v = v - position; 
 		float length = v.length();
 		v.div(length);
 		v.mul(distance);
 		for (int i = 0; i < 60; i++) {
 			for (int j = 0; j < 60; j++) {
-				viewPoints[i][j] = viewPoints[i][j] + v; // zmiana
+				viewPoints[i][j] = viewPoints[i][j] + v; 
 			}
 		}
 	}
@@ -82,7 +82,7 @@ public:
 		for (int i = 0; i < 60; i++) {
 			for (int j = 0; j < 60; j++) {
 				Vector v = viewPoints[i][j];
-				v = v - position; // zmiana
+				v = v - position; 
 				Line line(viewPoints[i][j], v);
 				if (cube.checkIntersection(line))
 				{
