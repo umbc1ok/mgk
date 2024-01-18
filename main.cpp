@@ -17,13 +17,17 @@ int main() {
 	RayCasting camera;
 
 	float fifteen = M_PI / 12;
-	float roll = 0, pitch = 0, yaw = 0, zoom = 0;
-	float rollR = 0, pitchR = 0, yawR = 0;
-
+	float yRot = 0, xRot = 0, zRot = 0, zoom = 0;
+	float yRotR = 0, xRotR = 0, zRotR = 0;
+	std::string output(3600, ' ');
 	for (;;)
 	{
-		system("CLS");
-		printf(camera.rayCasting(cube).c_str());
+		//system("CLS");
+		output = camera.rayCasting(cube,output);
+
+		//roll += ROTATE_SPEED;
+		//pitch += ROTATE_SPEED;
+		//yaw += ROTATE_SPEED;
 
 		if (GetKeyState('W') & 0x8000) {
 			zoom += ZOOM_SPEED;
@@ -31,31 +35,32 @@ int main() {
 		if (GetKeyState('S') & 0x8000) {
 			zoom -= ZOOM_SPEED;
 		}
-		if (GetKeyState('A') & 0x8000) {
-			roll -= ROTATE_SPEED;
-		}
-		if (GetKeyState('D') & 0x8000) {
-			roll += ROTATE_SPEED;
-		}
 		if (GetKeyState('Q') & 0x8000) {
-			pitch -= ROTATE_SPEED;
+			xRot -= ROTATE_SPEED;
 		}
 		if (GetKeyState('E') & 0x8000) {
-			pitch += ROTATE_SPEED;
+			xRot += ROTATE_SPEED;
+		}
+		if (GetKeyState('A') & 0x8000) {
+			yRot -= ROTATE_SPEED;
+		}
+		if (GetKeyState('D') & 0x8000) {
+			yRot += ROTATE_SPEED;
 		}
 		if (GetKeyState('Z') & 0x8000) {
-			yaw -= ROTATE_SPEED;
+			zRot -= ROTATE_SPEED;
 		}
 		if (GetKeyState('C') & 0x8000) {
-			yaw += ROTATE_SPEED;
+			zRot += ROTATE_SPEED;
 		}
 
-		rollR = M_PI * roll / 180;
-		pitchR = M_PI * pitch / 180;
-		yawR = M_PI * yaw / 180;
+		//wartosci w radianach
+		yRotR = M_PI * yRot / 180;
+		xRotR = M_PI * xRot / 180;
+		zRotR = M_PI * zRot / 180;
 
 
-		camera.changeTransform(rollR, pitchR, yawR, zoom);
+		camera.changeTransform(yRotR, xRotR, zRotR, zoom);
 	}
 }
 

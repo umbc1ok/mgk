@@ -33,23 +33,26 @@ public:
 			}
 		}
 	}
-	Vector rotatePoint(Vector point, float roll, float pitch, float yaw) {
+	Vector rotatePoint(Vector point, float Xrot, float yRot, float zRot) {
+
 		Quaternion p(point.x, point.y, point.z, 0);
-		float u = -roll;
-		float v = -pitch;
-		float w = yaw;
-		Quaternion q;
-		q.w = cos(u / 2) * cos(v / 2) * cos(w / 2) + sin(u / 2) * sin(v / 2) * sin(w / 2);
-		q.x = sin(u / 2) * cos(v / 2) * cos(w / 2) - cos(u / 2) * sin(v / 2) * sin(w / 2);
-		q.y = cos(u / 2) * sin(v / 2) * cos(w / 2) + sin(u / 2) * cos(v / 2) * sin(w / 2);
-		q.z = cos(u / 2) * cos(v / 2) * sin(w / 2) - sin(u / 2) * sin(v / 2) * cos(w / 2);
-		Quaternion qinverted = q.conjugate(); 
-		Quaternion pnew = qinverted * p * q;
-		Vector result;
-		result.x = pnew.x;
-		result.y = pnew.y;
-		result.z = pnew.z;
-		return result;
+		Vector ok;
+		if (Xrot != 0) {
+			Vector test(1, 0, 0);
+			 ok = p.rotate(point, test,Xrot);
+		}
+		if (yRot != 0) {
+			Vector test(0, 1, 0);
+			ok = p.rotate(ok, test, yRot);
+		}
+		if (zRot != 0) {
+			Vector test(0, 0, 1);
+			ok = p.rotate(ok, test, zRot);
+		}
+
+
+
+		return ok;
 	}
 	void rotate(float roll, float pitch, float yaw) {
 
@@ -77,7 +80,7 @@ public:
 
 
 	Vector viewPoints[60][60];
-	std::string rayCasting(Cube cube) {
+	std::string rayCasting(Cube cube, std::string currentConsoleState) {
 		std::string result = "";
 		for (int i = 0; i < 60; i++) {
 			for (int j = 0; j < 60; j++) {
@@ -86,13 +89,21 @@ public:
 				Line line(viewPoints[i][j], v);
 				if (cube.checkIntersection(line))
 				{
-					result += '0';
+					result+="0";
+					if (currentConsoleState[i * 60 + j] != '0') {
+						SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { SHORT(i), SHORT(j) });
+						std::cout << '0';
+					}
 				}
 				else {
-					result += '.';
+					result += ".";
+					if (currentConsoleState[i * 60 + j] != '.') {
+						SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), { SHORT(i), SHORT(j) });
+						std::cout << '.';
+					}
 				}
 			}
-			result += "\n";
+			
 		}
 		return result;
 	}
@@ -107,9 +118,9 @@ public:
 			}
 		}
 	}
-	void changeTransform(float roll, float pitch, float yaw, float z) {
+	void changeTransform(float yRot, float xRot, float zRot, float z) {
 		reset();
-		rotate(roll, pitch, yaw);
+		rotate(yRot, xRot, zRot);
 		zoom(z);
 	}
 	

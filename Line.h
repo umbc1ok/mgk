@@ -12,8 +12,9 @@ public:
 		v(v)
 	{
 	}
-
+	// Prosta przechodzaca przez punkt P
 	Vector p = Vector(0, 0, 0);
+	// Rownolegla do wektora V
 	Vector v = Vector(0, 0, 0);
 
 	Vector IntersectionWithPlane(Plane plane)
