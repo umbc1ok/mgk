@@ -12,7 +12,7 @@ public:
 
 	void Print() const;
 
-
+	Quaternion conjugate();
 
 	Quaternion operator+(Quaternion& other);
 	Quaternion operator-(Quaternion& other);

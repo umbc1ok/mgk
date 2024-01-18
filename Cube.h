@@ -4,6 +4,7 @@
 #include "Plane.h"
 #include "Line.h"
 #include "CommonMatricies.h"
+#include "Intersections.h"
 
 #include <vector>
 #include <iostream>
@@ -11,113 +12,69 @@
 class Cube
 {
 public:
-	Matrix transformMatrix;
-	Vector center;
-		float width;
-		float height;
-		float depth;
-		std::vector<Plane> planes;
-		//std::vector<Line> edges;
+    Vector points[8];
+    Plane planes[6];
 
+    Cube(float size) {
+        points[0] = Vector(-size, -size, -size); //-+-
+        points[1] = Vector(size, -size, -size); //++-
+        points[2] = Vector(size, -size, size); //+++
+        points[3] = Vector(-size, -size, size); //-++
+        points[4] = Vector(-size, size, size); //--+
+        points[5] = Vector(size, size, size); //+-+
+        points[6] = Vector(size, size, -size); //+--
+        points[7] = Vector(-size, size, -size);  //---
 
+        planes[0] = Plane(points[0], points[1], points[2], points[3]);
+        planes[1] = Plane(points[1], points[6], points[5], points[2]);
+        planes[2] = Plane(points[6], points[7], points[4], points[5]);
+        planes[3] = Plane(points[7], points[0], points[3], points[4]);
+        planes[4] = Plane(points[3], points[2], points[5], points[4]);
+        planes[5] = Plane(points[0], points[1], points[6], points[7]);
+    }
 
-		Cube(Vector center, float width, float height, float depth) 
-			: center(center), width(width), height(height), depth(depth), transformMatrix(4,4) {
-			transformMatrix.setUp();
-			Vector front = center + Vector(center.x, center.y, center.z + depth / 2);
-			Vector back = center + Vector(center.x, center.y, center.z - depth / 2);
-			Vector left = center + Vector(center.x - width / 2, center.y, center.z);
-			Vector right = center + Vector(center.x + width / 2, center.y, center.z);
-			Vector top = center + Vector(center.x, center.y + height / 2, center.z);
-			Vector bottom = center + Vector(center.x, center.y - height / 2, center.z);
+    bool checkIntersection(Line line) {
+        // Dla kazdego plane'a sprawdzamy czy linia go przecina
+        // Jesli tak to sprawdzamy czy punkt przeciecia nalezy do boku szeszescianu
+        // czyli czy x nalezy do przedzialu [x1, x2] i y nalezy do przedzialu [y1, y2] itd.
 
-			planes.push_back(Plane(front, Vector(0, 0, 1)));
-			planes.push_back(Plane(back, Vector(0, 0, -1)));
-			planes.push_back(Plane(left, Vector(-1, 0, 0)));
-			planes.push_back(Plane(right, Vector(1, 0, 0)));
-			planes.push_back(Plane(top, Vector(0, 1, 0)));
-			planes.push_back(Plane(bottom, Vector(0, -1, 0)));
+        Vector intersection = line.IntersectionWithPlane(planes[0]);
+        if (intersection.x >= points[0].x && intersection.x <= points[1].x &&
+            intersection.z >= points[0].z && intersection.z <= points[3].z) {
+            return true;
+        }
 
-		}
+        intersection = line.IntersectionWithPlane(planes[1]);
+        if (intersection.y <= points[6].y && intersection.y >= points[1].y &&
+            intersection.z >= points[1].z && intersection.z <= points[2].z) {
+            return true;
+        }
 
-		bool intersects(Line line) const {
-			const float halfWidth = width / 2.0f;
-			const float halfHeight = height / 2.0f;
-			const float halfDepth = depth / 2.0f;
+        intersection = line.IntersectionWithPlane(planes[2]);
+        if (intersection.x >= points[7].x && intersection.x <= points[6].x &&
+            intersection.z >= points[6].z && intersection.z <= points[5].z) {
+            return true;
+        }
 
-			// Transform the line into the cube's local coordinate system
-			Matrix inverseTransform = Matrix::getInverseOfMatrix(transformMatrix);
-			Vector lineNormalized = line.v.normalize();
-			Line localLine = Line(inverseTransform * line.p, inverseTransform.getRotationPart() * lineNormalized);
+        intersection = line.IntersectionWithPlane(planes[3]);
+        if (intersection.y <= points[7].y && intersection.y >= points[0].y &&
+            intersection.z >= points[0].z && intersection.z <= points[3].z) {
+            return true;
+        }
 
-			constexpr float epsilon = 0.00005f;
+        intersection = line.IntersectionWithPlane(planes[4]);
+        if (intersection.x >= points[3].x && intersection.x <= points[2].x &&
+            intersection.y <= points[4].y && intersection.y >= points[3].y) {
+            return true;
+        }
 
-			for (auto const& plane : planes)
-			{
-				Vector normal = plane.normal;
-				Vector Q = plane.p;
-				Vector P = localLine.p;
-				Vector V = localLine.v;
+        intersection = line.IntersectionWithPlane(planes[5]);
+        if (intersection.x >= points[0].x && intersection.x <= points[1].x &&
+            intersection.y <= points[7].y && intersection.y >= points[0].y) {
+            return true;
+        }
 
-				const float t = ((Q - P).dot(normal)) / (V.dot(normal));
-
-				if (t >= 0.0f)
-				{
-					const Vector intersection = P + (V * t);
-
-					if (std::abs(intersection.x - center.x) <= halfWidth + epsilon &&
-						std::abs(intersection.y - center.y) <= halfHeight + epsilon &&
-						std::abs(intersection.z - center.z) <= halfDepth + epsilon)
-					{
-						return true;
-					}
-				}
-			}
-
-			return false;
-		}
-
-			
-		
-
-		void rotate(float angle, Vector axis) {
-			Matrix rotationMatrix = Matrix(3, 3);
-
-			if (axis == Vector(1,0,0))
-			{
-				rotationMatrix = RotationX(angle);
-			}
-			else if (axis == Vector(0, 1, 0))
-			{
-				rotationMatrix = RotationY(angle);
-			}
-			else if (axis == Vector(0, 0, 1))
-			{
-				rotationMatrix = RotationZ(angle);
-			}
-			else
-			{
-				std::cout << "Wrong axis!" << std::endl;
-				return;
-			}
-
-			Matrix extendedRotationMatrix = Matrix(4, 4);
-			extendedRotationMatrix.extendMatrix(rotationMatrix);
-			transformMatrix = transformMatrix.Multiply(extendedRotationMatrix);
-
-			//TRZEBA DODAC MNOZENIE MATRIX * VECTOR!!!
-
-			for (auto& plane : planes)
-			{
-				Vector temp = (plane.p - center) + center;
-				plane.p = extendedRotationMatrix * temp;
-				plane.normal = (extendedRotationMatrix * plane.normal).normalize();
-			}
-
-		}
-
-
-
-
+        return false;
+    }
 };
 

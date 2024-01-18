@@ -36,9 +36,6 @@
     <ClCompile Include="Quaternion.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="Intersections.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="Plane.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>

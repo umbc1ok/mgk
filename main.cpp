@@ -8,41 +8,59 @@
 #include "Intersections.h"
 #include "RayCasting.h"
 
-
+#define ROTATE_SPEED 1
+#define ZOOM_SPEED 0.1
 
 
 int main() {
-	clearBuffer();
+	Cube cube(5);
+	RayCasting camera;
 
-	Cube cube(Vector(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 1.0f);
-	Renderer::cubes.emplace_back(cube);
+	float fifteen = M_PI / 12;
+	float yRot = 0, xRot = 0, zRot = 0, zoom = 0;
+	float yRotR = 0, xRotR = 0, zRotR = 0;
+	std::string output(3600, ' ');
+	for (;;)
+	{
+		//system("CLS");
+		output = camera.rayCasting(cube,output);
 
-	float flow = -10000.0f;
-	float rotation = 1.0f;
-	bool once = true;
+		//roll += ROTATE_SPEED;
+		//pitch += ROTATE_SPEED;
+		//yaw += ROTATE_SPEED;
 
-    while (true)
-    {
-        flow += 0.01f;
-        //rotation += 0.0001f;
-        for (auto& sphere : Renderer::spheres)
-        {
-            sphere.radius = sin(flow);
-        }
+		if (GetKeyState('W') & 0x8000) {
+			zoom += ZOOM_SPEED;
+		}
+		if (GetKeyState('S') & 0x8000) {
+			zoom -= ZOOM_SPEED;
+		}
+		if (GetKeyState('Q') & 0x8000) {
+			xRot -= ROTATE_SPEED;
+		}
+		if (GetKeyState('E') & 0x8000) {
+			xRot += ROTATE_SPEED;
+		}
+		if (GetKeyState('A') & 0x8000) {
+			yRot -= ROTATE_SPEED;
+		}
+		if (GetKeyState('D') & 0x8000) {
+			yRot += ROTATE_SPEED;
+		}
+		if (GetKeyState('Z') & 0x8000) {
+			zRot -= ROTATE_SPEED;
+		}
+		if (GetKeyState('C') & 0x8000) {
+			zRot += ROTATE_SPEED;
+		}
 
-        //if (once)
-        {
-            for (auto& cube : Renderer::cubes)
-            {
-                cube.rotate(rotation, Vector(0.0f, 1.0f, 0.0f));
-                //cube.rotate(rotation, Vector(1.0f, 0.0f, 0.0f));
-                //cube.rotate(rotation, Vector(0.0f, 0.0f, 1.0f));
-                //cube.center = Vector(sin(flow), sin(flow), 0.0f);
-                once = false;
-            }
-        }
+		//wartosci w radianach
+		yRotR = M_PI * yRot / 180;
+		xRotR = M_PI * xRot / 180;
+		zRotR = M_PI * zRot / 180;
 
-        render();
-    }
+
+		camera.changeTransform(yRotR, xRotR, zRotR, zoom);
+	}
 }
 
