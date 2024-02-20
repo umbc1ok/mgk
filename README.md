@@ -1,4 +1,4 @@
-# Commandline raycaster
+# Command line raycaster
 
 This project implements the maths required for basic computer graphics (such as vectors, quaternions, matrices, and intersections) and uses said math to display a rotating cube in command line.
   
